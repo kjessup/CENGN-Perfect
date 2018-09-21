@@ -33,7 +33,11 @@ RUN apt-get -y update && \
 	php php-mcrypt php-gd php-mbstring php-xml \
 	nodejs \
 	python-pip python-dev python-setuptools \
-	oracle-java8-installer gradle maven
+	oracle-java8-installer gradle maven \
+	zabbix-server-pgsql zabbix-frontend-php php-pgsql zabbix-agent \
+	gawk autoconf automake bison libffi-dev libgdbm-dev libncurses5-dev \
+	libsqlite3-dev libtool libyaml-dev sqlite3 zlib1g-dev libgmp-dev libreadline6-dev && \
+	rm -rf /var/lib/apt/lists/*
 
 # django
 RUN pip install --upgrade pip
