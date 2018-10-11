@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "vapor",
+    name: "vaporapp",
     dependencies: [
         // 💧 A server-side Swift web framework.
         .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0"),
