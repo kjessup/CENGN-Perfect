@@ -1,0 +1,9 @@
+#!/bin/bash
+
+python -V
+php -v
+go version
+swift --version
+java -version
+ruby -v 
+node -v
