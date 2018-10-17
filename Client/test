@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ports="8080 8181 8181"
+ports="8080 8181 8282"
 tests="Empty 1024"
 
 rm -rf *.out Report-* Reports.zip
