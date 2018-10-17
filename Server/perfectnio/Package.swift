@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
 	name: "PerfectTemplate",
 	products: [
-		.executable(name: "PerfectTemplate", targets: ["PerfectTemplateExe"]),
+		.executable(name: "perfectnio", targets: ["PerfectTemplateExe"]),
 		.library(name: "PerfectTemplateLib2", targets: ["PerfectTemplateLib2"])
 	],
 	dependencies: [
