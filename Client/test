@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ports="8080 8181"
+ports="8080 8181 8181"
 tests="Empty 1024"
 
 rm -rf *.out
@@ -16,5 +16,6 @@ do
 	done
 done
 
+rm Reports.zip
 echo "Zipping Reports.zip"
 zip -r Reports.zip Report-*
