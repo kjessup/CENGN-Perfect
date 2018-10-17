@@ -28,5 +28,5 @@ func handler1024(w http.ResponseWriter, r *http.Request) {
 func main() {
     http.HandleFunc("/empty", handlerEmpty)
     http.HandleFunc("/1024", handler1024)
-    log.Fatal(http.ListenAndServe(":8080", nil))
+    log.Fatal(http.ListenAndServe(":8282", nil))
 }
