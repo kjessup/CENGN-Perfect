@@ -1,0 +1,14 @@
+#!/bin/bash
+
+ports="8080 8181"
+tests="Empty 1024"
+
+rm -rf *.out
+
+for port in $ports
+do
+	for test in $tests
+	do
+		~/apache-jmeter-5.0/bin/jmeter.sh -Jport=${port} -n -t Request-${test}.jmx -l Request-${test}.${port}.out -e -o ./Report-${test}-${port}/
+	done
+done
