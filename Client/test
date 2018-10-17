@@ -9,6 +9,7 @@ for port in $ports
 do
 	for test in $tests
 	do
+		echo "Test ${test} on port ${port}"
 		~/apache-jmeter-5.0/bin/jmeter.sh -Jport=${port} -n -t Request-${test}.jmx -l Request-${test}.${port}.out -e -o ./Report-${test}-${port}/
 	done
 done
