@@ -6,6 +6,7 @@ var routes = Routes()
 let big1024 = String(repeating: "A", count: 1024)
 let big2048 = String(repeating: "A", count: 2048)
 let big4096 = String(repeating: "A", count: 4096)
+let big8192 = String(repeating: "A", count: 8192)
 
 routes.add(uri: "/empty") {
 	req, resp in
@@ -22,6 +23,10 @@ routes.add(uri: "/2048") {
 routes.add(uri: "/4096") {
 	req, resp in
 	resp.appendBody(string: big4096).completed()
+}
+routes.add(uri: "/8192") {
+	req, resp in
+	resp.appendBody(string: big8192).completed()
 }
 routes.add(uri: "/push/8192") {
 	req, resp in
