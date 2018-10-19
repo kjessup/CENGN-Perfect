@@ -16,7 +16,7 @@
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
           <collectionProp name="Arguments.arguments"/>
         </elementProp>
-        <stringProp name="HTTPSampler.domain">10.252.133.5</stringProp>
+        <stringProp name="HTTPSampler.domain">localhost</stringProp>
         <stringProp name="HTTPSampler.port"></stringProp>
         <stringProp name="HTTPSampler.protocol"></stringProp>
         <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -44,7 +44,7 @@
         <elementProp name="ThreadGroup.main_controller" elementType="com.blazemeter.jmeter.control.VirtualUserController"/>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <stringProp name="TargetLevel">400</stringProp>
-        <stringProp name="RampUp">2</stringProp>
+        <stringProp name="RampUp">1</stringProp>
         <stringProp name="Steps">10</stringProp>
         <stringProp name="Hold">1</stringProp>
         <stringProp name="LogFilename"></stringProp>
@@ -113,7 +113,7 @@
         <elementProp name="ThreadGroup.main_controller" elementType="com.blazemeter.jmeter.control.VirtualUserController"/>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <stringProp name="TargetLevel">400</stringProp>
-        <stringProp name="RampUp">2</stringProp>
+        <stringProp name="RampUp">1</stringProp>
         <stringProp name="Steps">10</stringProp>
         <stringProp name="Hold">1</stringProp>
         <stringProp name="LogFilename"></stringProp>
@@ -196,7 +196,7 @@
         <elementProp name="ThreadGroup.main_controller" elementType="com.blazemeter.jmeter.control.VirtualUserController"/>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <stringProp name="TargetLevel">400</stringProp>
-        <stringProp name="RampUp">2</stringProp>
+        <stringProp name="RampUp">1</stringProp>
         <stringProp name="Steps">10</stringProp>
         <stringProp name="Hold">1</stringProp>
         <stringProp name="LogFilename"></stringProp>
@@ -265,7 +265,7 @@
         <elementProp name="ThreadGroup.main_controller" elementType="com.blazemeter.jmeter.control.VirtualUserController"/>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <stringProp name="TargetLevel">400</stringProp>
-        <stringProp name="RampUp">2</stringProp>
+        <stringProp name="RampUp">1</stringProp>
         <stringProp name="Steps">10</stringProp>
         <stringProp name="Hold">1</stringProp>
         <stringProp name="LogFilename"></stringProp>
@@ -337,7 +337,7 @@
           <value class="SampleSaveConfiguration">
             <time>true</time>
             <latency>true</latency>
-            <timestamp>true</timestamp>
+            <timestamp>false</timestamp>
             <success>true</success>
             <label>true</label>
             <code>true</code>
@@ -374,42 +374,42 @@
         <boolProp name="include_checkbox_state">false</boolProp>
         <boolProp name="exclude_checkbox_state">false</boolProp>
         <collectionProp name="MergeResultsControlGui.data">
-          <collectionProp name="-548968110">
+          <collectionProp name="-552779470">
             <stringProp name="-1059080202">Results-PerfectNIO-Empty.csv</stringProp>
-            <stringProp name="-521197031">PerfectNIO </stringProp>
+            <stringProp name="32"> </stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="0"></stringProp>
-            <stringProp name="67081517">Empty</stringProp>
+            <stringProp name="0"></stringProp>
             <stringProp name="1237">false</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="1237">false</stringProp>
           </collectionProp>
-          <collectionProp name="1856033976">
+          <collectionProp name="245511680">
             <stringProp name="715395816">Results-PerfectNIO-1024.csv</stringProp>
-            <stringProp name="-521197031">PerfectNIO </stringProp>
+            <stringProp name="32"> </stringProp>
+            <stringProp name="1389282">-120</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="0"></stringProp>
-            <stringProp name="1507489">1024</stringProp>
             <stringProp name="1237">false</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="1237">false</stringProp>
           </collectionProp>
-          <collectionProp name="1065919288">
+          <collectionProp name="-1281951203">
             <stringProp name="-1628888658">Results-Perfect-Empty.csv</stringProp>
-            <stringProp name="495494611">Perfect </stringProp>
+            <stringProp name="32"> </stringProp>
+            <stringProp name="1390305">-240</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="0"></stringProp>
-            <stringProp name="67081517">Empty</stringProp>
             <stringProp name="1237">false</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="1237">false</stringProp>
           </collectionProp>
-          <collectionProp name="-82683397">
+          <collectionProp name="-1109172216">
             <stringProp name="-1519742416">Results-Perfect-1024.csv</stringProp>
-            <stringProp name="495494611">Perfect </stringProp>
+            <stringProp name="32"> </stringProp>
+            <stringProp name="1391328">-360</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="0"></stringProp>
-            <stringProp name="1507489">1024</stringProp>
             <stringProp name="1237">false</stringProp>
             <stringProp name="0"></stringProp>
             <stringProp name="1237">false</stringProp>
