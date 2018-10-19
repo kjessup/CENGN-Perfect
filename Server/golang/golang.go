@@ -18,7 +18,7 @@ func Repeat(s string, count int) string {
 var s1024 = []byte(Repeat("A", 1024))
 var s2048 = []byte(Repeat("A", 2048))
 var s4096 = []byte(Repeat("A", 4096))
-var s4096 = []byte(Repeat("A", 8192))
+var s8192 = []byte(Repeat("A", 8192))
 
 func handlerEmpty(w http.ResponseWriter, r *http.Request) {
     
