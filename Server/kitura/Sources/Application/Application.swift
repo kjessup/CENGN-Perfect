@@ -20,12 +20,12 @@ public class App {
 
     func postInit() throws {
         // Endpoints
-        initializeHealthRoutes(app: self)
+        initializeRoutes(app: self)
     }
 
     public func run() throws {
         try postInit()
-        Kitura.addHTTPServer(onPort: cloudEnv.port, with: router)
+        Kitura.addHTTPServer(onPort: 8484, with: router)
         Kitura.run()
     }
 }
