@@ -11,7 +11,7 @@ func initializeRoutes(app: App) {
 	
 	app.router.get("/empty") {
 		_, response, next in
-		next()
+		try response.send("").end()
 	}
 	app.router.get("/1024") {
 		_, response, next in
