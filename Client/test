@@ -2,7 +2,7 @@
 
 JVM_ARGS="-Xms1024m -Xmx1024m"
 
-ports=${1:-"8080 8181 8282 8383 8484 8585"}
+ports=${1:-"8080 8181 8282 8383 8585"}
 tests="empty 1024 2048 4096 8192"
 
 rm -rf *.out Report-* Reports.zip
