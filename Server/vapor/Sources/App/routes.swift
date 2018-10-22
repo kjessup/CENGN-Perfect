@@ -1,20 +1,31 @@
 import Vapor
 
+let big1024 = String(repeating: "A", count: 1024)
+let big2048 = String(repeating: "A", count: 2048)
+let big4096 = String(repeating: "A", count: 4096)
+let big8192 = String(repeating: "A", count: 8192)
+
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
-    // Basic "It works" example
-    router.get { req in
-        return "It works!"
-    }
-    
-    // Basic "Hello, world!" example
-    router.get("hello") { req in
-        return "Hello, world!"
-    }
-
-    // Example of configuring a controller
-    let todoController = TodoController()
-    router.get("todos", use: todoController.index)
-    router.post("todos", use: todoController.create)
-    router.delete("todos", Todo.parameter, use: todoController.delete)
+	
+	router.get("/empty") {
+		req in
+		return ""
+	}
+	router.get("/1024") {
+		req in
+		return big1024
+	}
+	router.get("/2048") {
+		req in
+		return big2048
+	}
+	router.get("/4096") {
+		req in
+		return big4096
+	}
+	router.get("/8192") {
+		req in
+		return big8192
+	}
 }
