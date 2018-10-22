@@ -15,6 +15,7 @@ private let zeroBuf = ByteBufferAllocator().buffer(capacity: 0)
 class NHTTPResponse: HTTPResponse {
 	let nioHandler: HTTPHandler
 	var ctx: ChannelHandlerContext { return nrequest.ctx }
+	let channel: Channel
 	var request: HTTPRequest { return nrequest }
 	let nrequest: NHTTPRequest
 	var status: PerfectHTTP.HTTPResponseStatus = .ok
@@ -25,7 +26,7 @@ class NHTTPResponse: HTTPResponse {
 		}
 		set {
 			if nil == bodyMaybe {
-				bodyMaybe = ctx.channel.allocator.buffer(capacity: newValue.count)
+				bodyMaybe = channel.allocator.buffer(capacity: newValue.count)
 			}
 			bodyMaybe?.clear()
 			bodyMaybe?.write(bytes: newValue)
@@ -38,7 +39,7 @@ class NHTTPResponse: HTTPResponse {
 		if let real = bodyMaybe {
 			return real
 		}
-		let b = ctx.channel.allocator.buffer(capacity: 128)
+		let b = channel.allocator.buffer(capacity: 128)
 		bodyMaybe = b
 		return b
 	}
@@ -53,6 +54,7 @@ class NHTTPResponse: HTTPResponse {
 	init(nioHandler: HTTPHandler, request: NHTTPRequest) {
 		self.nioHandler = nioHandler
 		nrequest = request
+		channel = nrequest.ctx.channel
 	}
 	
 	func header(_ named: HTTPResponseHeader.Name) -> String? {
@@ -100,9 +102,9 @@ class NHTTPResponse: HTTPResponse {
 		if !wroteHeaders {
 			wroteHeaders = true
 			if hasBody {
-				ctx.write(nioHandler.wrapOutboundOut(.head(responseHead())), promise: nil)
+				channel.write(nioHandler.wrapOutboundOut(.head(responseHead())), promise: nil)
 			} else {
-				return ctx.writeAndFlush(nioHandler.wrapOutboundOut(.head(responseHead())), promise: promise)
+				return channel.writeAndFlush(nioHandler.wrapOutboundOut(.head(responseHead())), promise: promise)
 			}
 		}
 		if !hasBody {
@@ -110,7 +112,7 @@ class NHTTPResponse: HTTPResponse {
 			return promise.succeed(result: ())
 		} else {
 			let out = nioHandler.wrapOutboundOut(.body(.byteBuffer(body)))
-			ctx.writeAndFlush(out, promise: promise)
+			channel.writeAndFlush(out, promise: promise)
 		}
 	}
 		
@@ -155,6 +157,6 @@ class NHTTPResponse: HTTPResponse {
 			}
 		}
 		nioHandler.response = nil
-		ctx.writeAndFlush(nioHandler.wrapOutboundOut(.end(trailers)), promise: promise)
+		channel.writeAndFlush(nioHandler.wrapOutboundOut(.end(trailers)), promise: promise)
 	}
 }

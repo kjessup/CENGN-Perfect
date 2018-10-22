@@ -3,6 +3,7 @@ import NIO
 import NIOHTTP1
 import PerfectHTTP
 import PerfectNet
+import Dispatch
 
 func logInfo(_ msg: String) {
 	print("[INFO] \(msg)")
@@ -47,13 +48,15 @@ final class HTTPHandler: ChannelInboundHandler {
 	}
 	
 	private func routeRequest(_ request: HTTPRequest, response: HTTPResponse) {
-		let nav = routeNavigator
-		if let handlers = nav.findHandlers(pathComponents: request.pathComponents, webRequest: request) {
-			handlers.last?(request, response)
-		} else {
-			response.status = .notFound
-			response.setBody(string: "The file \(request.path) was not found.")
-			response.completed()
+		DispatchQueue.global().async {
+			let nav = self.routeNavigator
+			if let handlers = nav.findHandlers(pathComponents: request.pathComponents, webRequest: request) {
+				handlers.last?(request, response)
+			} else {
+				response.status = .notFound
+				response.setBody(string: "The file \(request.path) was not found.")
+				response.completed()
+			}
 		}
 	}
 	
