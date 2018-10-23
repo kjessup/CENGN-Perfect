@@ -18,18 +18,18 @@ use Illuminate\Http\Request;
 	$s4096 = str_repeat("A", 4096);
 	$s8192 = str_repeat("A", 8192);
 	
-Route::get('empty', function () {
+Route::get('/empty', function () {
 	return "";
 });
-Route::get('1024', function () {
+Route::get('/1024', function () {
    return $s1024;
 });
-Route::get('2048', function () {
+Route::get('/2048', function () {
    return $s2048;
 });
-Route::get('4096', function () {
+Route::get('/4096', function () {
 	return $s4096;
 });
-Route::get('8192', function () {
+Route::get('/8192', function () {
    return $s8192;
 });
