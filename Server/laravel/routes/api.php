@@ -19,21 +19,21 @@ $s4096 = str_repeat("A", 4096);
 $s8192 = str_repeat("A", 8192);
 	
 Route::get('/empty', function () {
-	echo "";
+	return "";
 });
 Route::get('/1024', function () {
 	global $s1024;
-	echo $s1024;
+	return $s1024;
 });
 Route::get('/2048', function () {
 	global $s2048;
-	echo $s2048;
-	});
+	return $s2048;
+});
 Route::get('/4096', function () {
 	global $s4096;
-	echo $s4096;
+	return $s4096;
 });
 Route::get('/8192', function () {
 	global $s8192;
-	echo $s8192;
+	return $s8192;
 });
