@@ -13,6 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/empty', function (Request $request) {
+Route::get('empty', function () {
 	return "";
 });
