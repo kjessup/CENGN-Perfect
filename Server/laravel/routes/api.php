@@ -21,15 +21,19 @@ use Illuminate\Http\Request;
 Route::get('/empty', function () {
 	return "";
 });
-Route::get('/s1024', function () {
-   return $s1024;
+Route::get('/1024', function () {
+	GLOBAL $s1024;
+	return $s1024;
 });
-Route::get('/s2048', function () {
-   return $s2048;
-});
-Route::get('/s4096', function () {
+Route::get('/2048', function () {
+	GLOBAL $s2048;
+	return $s2048;
+	});
+Route::get('/4096', function () {
+	GLOBAL $s4096;
 	return $s4096;
 });
-Route::get('/s8192', function () {
-   return $s8192;
+Route::get('/8192', function () {
+	GLOBAL $s8192;
+	return $s8192;
 });
