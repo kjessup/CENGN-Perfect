@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
+global $s1024;
 $s1024 = str_repeat("A", 1024);
 $s2048 = str_repeat("A", 2048);
 $s4096 = str_repeat("A", 4096);
@@ -23,7 +24,7 @@ Route::get('/empty', function () {
 });
 Route::get('/1024', function () {
 	global $s1024;
-	return str_repeat("A", 1024);//$s1024;
+	return $s1024;
 });
 Route::get('/2048', function () {
 	global $s2048;
