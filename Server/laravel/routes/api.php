@@ -13,7 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-global $s1024, $s2048, $s4096, $s8192;
+global $s1024;
+global $s2048;
+global $s4096;
+global $s8192;
 $s1024 = str_repeat("A", 1024);
 $s2048 = str_repeat("A", 2048);
 $s4096 = str_repeat("A", 4096);
