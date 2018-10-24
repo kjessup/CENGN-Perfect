@@ -23,7 +23,7 @@ Route::get('/empty', function () {
 });
 Route::get('/1024', function () {
 	global $s1024;
-	return $s1024;
+	return str_repeat("A", 1024);//$s1024;
 });
 Route::get('/2048', function () {
 	global $s2048;
