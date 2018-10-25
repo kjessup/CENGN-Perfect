@@ -4,8 +4,9 @@
 import PackageDescription
 
 let package = Package(
-    name: "SmokeFramework",
+    name: "Smoke",
     products: [
+		.executable(name: "smokeserver", targets: ["SmokeServer"]),
         .library(
             name: "SmokeOperations",
             targets: ["SmokeOperations"]),
@@ -18,9 +19,12 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-nio.git", from: "1.0.0"),
     ],
     targets: [
-        .target(
-            name: "SmokeHTTP1",
-            dependencies: ["NIO", "NIOHTTP1", "LoggerAPI"]),
+		.target(
+			name: "SmokeServer",
+			dependencies: ["SmokeOperations"]),
+		.target(
+			name: "SmokeHTTP1",
+			dependencies: ["NIO", "NIOHTTP1", "LoggerAPI"]),
         .target(
             name: "SmokeOperations",
             dependencies: ["LoggerAPI", "SmokeHTTP1"]),
