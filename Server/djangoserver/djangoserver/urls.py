@@ -24,29 +24,58 @@ urlpatterns = [
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from rest_framework import serializers, viewsets, routers
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import renderers
+from django.utils.decorators import method_decorator
+from rest_framework.decorators import api_view, renderer_classes
 
-# Serializers define the API representation.
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'is_staff')
+class PlainTextRenderer(renderers.BaseRenderer):
+	media_type = 'text/plain'
+	format = 'txt'
+			
+	def render(self, data, media_type=None, renderer_context=None):
+		return data.encode(self.charset)
 
+@api_view(['GET'])
+@renderer_classes((PlainTextRenderer,))
+def empty_view(request, format=None):
+	return Response('')
 
-# ViewSets define the view behavior.
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+s1024 = 'A' * 1024
+s2048 = 'A' * 2048
+s4096 = 'A' * 4096
+s8192 = 'A' * 8192
 
+@api_view(['GET'])
+@renderer_classes((PlainTextRenderer,))
+def s1024_view(request, format=None):
+	return Response(s1024)
 
-# Routers provide a way of automatically determining the URL conf.
-router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
+@api_view(['GET'])
+@renderer_classes((PlainTextRenderer,))
+def s2048_view(request, format=None):
+	return Response(s2048)
+
+@api_view(['GET'])
+@renderer_classes((PlainTextRenderer,))
+def s4096_view(request, format=None):
+	return Response(s4096)
+
+@api_view(['GET'])
+@renderer_classes((PlainTextRenderer,))
+def s8192_view(request, format=None):
+	return Response(s8192)
 
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+			   url(r'^empty', empty_view),
+			   url(r'^1024', s1024_view),
+			   url(r'^2048', s2048_view),
+			   url(r'^4096', s4096_view),
+			   url(r'^8192', s8192_view),
+#    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 
