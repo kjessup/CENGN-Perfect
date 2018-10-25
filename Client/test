@@ -14,7 +14,7 @@ do
 		echo "Test ${test} on port ${port}"
 		~/apache-jmeter-5.0/bin/jmeter.sh -Jport=${port} -Juri=${test} -n -t Request-Generic.jmx -l Request-${test}.${port}.out -e -o ./Report-${test}-${port}/
 		echo "Pausing..."
-		sleep 5
+		sleep 2
 	done
 done
 
