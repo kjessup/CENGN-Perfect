@@ -5,13 +5,12 @@ JVM_ARGS="-Xms1024m -Xmx1024m"
 ports=${1:-"8080 8181 8282 8383 8585 8686 8787 8888 8989"}
 tests="empty 1024 2048 4096 8192"
 
-rm -rf *.out Report-* Reports.zip
-
 for port in $ports
 do
 	for test in $tests
 	do
 		echo "Test ${test} on port ${port}"
+		rm -rf Report-${test}-${port} Request-${test}-${port}.out
 		~/apache-jmeter-5.0/bin/jmeter.sh -Gport=${port} -Guri=${test} -n -t Request-Generic.jmx -R10.252.133.10,10.252.133.11,10.252.133.12 -l Request-${test}.${port}.out -e -o ./Report-${test}-${port}/
 		echo "Pausing..."
 		sleep 2
@@ -19,4 +18,5 @@ do
 done
 
 echo "Zipping Reports.zip"
+rm Reports.zip
 zip -r Reports.zip Report-*
