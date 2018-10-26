@@ -12,7 +12,7 @@ do
 	for test in $tests
 	do
 		echo "Test ${test} on port ${port}"
-		~/apache-jmeter-5.0/bin/jmeter.sh -Jport=${port} -Juri=${test} -n -t Request-Generic.jmx -l Request-${test}.${port}.out -e -o ./Report-${test}-${port}/
+		~/apache-jmeter-5.0/bin/jmeter.sh -Gport=${port} -Guri=${test} -n -t Request-Generic.jmx -R10.252.133.10,10.252.133.11,10.252.133.12 -l Request-${test}.${port}.out -e -o ./Report-${test}-${port}/
 		echo "Pausing..."
 		sleep 2
 	done
