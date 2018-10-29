@@ -1,0 +1,22 @@
+#!/bin/bash
+
+JVM_ARGS="-Xms1024m -Xmx1024m"
+
+ports=${1:-"8080 8181 8282 8383 8585 8686 8787 8888 8989 9000"}
+tests=${2:-"getArgs2048"}
+
+for port in $ports
+do
+	for test in $tests
+	do
+		echo "Test ${test} on port ${port}"
+		rm -rf Report-${test}-${port} Request-${test}.${port}.out
+		~/apache-jmeter-5.0/bin/jmeter.sh -Gport=${port} -Guri=${test} -n -t Request-searchArgs2048.jmx -R10.252.133.10,10.252.133.11,10.252.133.12 -l Request-${test}.${port}.out -e -o ./Report-${test}-${port}/
+		echo "Pausing..."
+		sleep 2
+	done
+done
+
+echo "Zipping Reports.zip"
+rm Reports.zip
+zip -r Reports.zip Report-*
