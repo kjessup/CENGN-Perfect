@@ -37,15 +37,15 @@ class PlainTextRenderer(renderers.BaseRenderer):
 	def render(self, data, media_type=None, renderer_context=None):
 		return data.encode(self.charset)
 
-@api_view(['GET'])
-@renderer_classes((PlainTextRenderer,))
-def empty_view(request, format=None):
-	return Response('')
-
 s1024 = 'A' * 1024
 s2048 = 'A' * 2048
 s4096 = 'A' * 4096
 s8192 = 'A' * 8192
+
+@api_view(['GET'])
+@renderer_classes((PlainTextRenderer,))
+def empty_view(request, format=None):
+	return Response('')
 
 @api_view(['GET'])
 @renderer_classes((PlainTextRenderer,))
@@ -67,6 +67,37 @@ def s4096_view(request, format=None):
 def s8192_view(request, format=None):
 	return Response(s8192)
 
+# --
+
+def char_range(c1, c2):
+	"""Generates the characters from `c1` to `c2`, inclusive."""
+	for c in range(ord(c1), ord(c2)+1):
+		yield chr(c)
+
+def read(args):
+	prefix = 'abc'
+	for c in char_range('a', 'z'):
+		key = prefix + str(c)
+		fetch = args.get(key)
+
+@api_view(['GET'])
+@renderer_classes((PlainTextRenderer,))
+def searchArgs_view(request, format=None):
+	read(request.GET)
+	return Response(s2048)
+
+@api_view(['POST'])
+@renderer_classes((PlainTextRenderer,))
+def postArgs_view(request, format=None):
+	read(request.POST)
+	return Response(s2048)
+
+@api_view(['POST'])
+@renderer_classes((PlainTextRenderer,))
+def postArgsMulti_view(request, format=None):
+	read(request.POST)
+	return Response(s2048)
+
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
@@ -76,6 +107,10 @@ urlpatterns = [
 			   url(r'^2048', s2048_view),
 			   url(r'^4096', s4096_view),
 			   url(r'^8192', s8192_view),
+			   
+			   url(r'^searchArgs2048', searchArgs_view),
+			   url(r'^postArgs2048', postArgs_view),
+			   url(r'^postArgsMulti2048', postArgsMulti_view),
 #    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 
