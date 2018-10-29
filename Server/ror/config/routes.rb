@@ -5,4 +5,8 @@ Rails.application.routes.draw do
   get '2048', to: 'application#s2048'
   get '4096', to: 'application#s4096'
   get '8192', to: 'application#s8192'
+
+  get 'getArgs2048', to: 'application#getArgs2048'
+  post 'postArgs2048', to: 'application#postArgs2048'
+  post '8192', to: 'application#s8192'
 end

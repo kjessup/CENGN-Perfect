@@ -12,11 +12,7 @@ do
 		echo "Test ${test} on port ${port}"
 		rm -rf Report-${test}-${port} Request-${test}.${port}.out
 		~/apache-jmeter-5.0/bin/jmeter.sh -Gport=${port} -Guri=${test} -n -t Request-Generic.jmx -R10.252.133.10,10.252.133.11,10.252.133.12 -l Request-${test}.${port}.out -e -o ./Report-${test}-${port}/
-		echo "Pausing..."
-		sleep 2
+		echo "Zipping Report-${test}-${port}.zip"
+		zip -r Report-${test}-${port}.zip Report-${test}-${port}
 	done
 done
-
-echo "Zipping Reports.zip"
-rm Reports.zip
-zip -r Reports.zip Report-*

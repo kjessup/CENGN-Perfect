@@ -19,4 +19,13 @@ class ApplicationController < ActionController::API
 	def s8192
 		render plain: $s8192
 	end
+	def getArgs2048
+		render plain: $s2048
+	end
+	def postArgs2048
+		render plain: $s2048
+	end
+	def postArgsMulti2048
+		render plain: $s2048
+	end
 end
