@@ -82,7 +82,7 @@ def read(args):
 
 @api_view(['GET'])
 @renderer_classes((PlainTextRenderer,))
-def searchArgs_view(request, format=None):
+def getArgs_view(request, format=None):
 	read(request.GET)
 	return Response(s2048)
 
@@ -108,7 +108,7 @@ urlpatterns = [
 			   url(r'^4096', s4096_view),
 			   url(r'^8192', s8192_view),
 			   
-			   url(r'^searchArgs2048', searchArgs_view),
+			   url(r'^getArgs2048', getArgs_view),
 			   url(r'^postArgs2048', postArgs_view),
 			   url(r'^postArgsMulti2048', postArgsMulti_view),
 #    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
