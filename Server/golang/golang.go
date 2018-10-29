@@ -40,11 +40,41 @@ func handler8192(w http.ResponseWriter, r *http.Request) {
 	w.Write(s8192)
 }
 
+// --
+
+func read(r *http.Request) {
+    prefix := "abc"
+    for i := byte('a'); i <= byte('z'); i++ {
+        s := prefix + string(byte(i))
+        v := r.FormValue(s)
+        _ = v
+    }
+}
+
+func handlerGetArgs2048(w http.ResponseWriter, r *http.Request) {
+    read(r)
+	w.Write(s8192)
+}
+func handlerPostArgs2048(w http.ResponseWriter, r *http.Request) {
+    r.ParseForm()
+    read(r)
+	w.Write(s8192)
+}
+func handlerPostArgsMulti2048(w http.ResponseWriter, r *http.Request) {
+    r.ParseMultipartForm(32 << 20)
+    read(r)
+	w.Write(s8192)
+}
+
 func main() {
     http.HandleFunc("/empty", handlerEmpty)
     http.HandleFunc("/1024", handler1024)
     http.HandleFunc("/2048", handler2048)
 	http.HandleFunc("/4096", handler4096)
-	http.HandleFunc("/8192", handler8192)
+
+	http.HandleFunc("/getArgs2048", handlerGetArgs2048)
+	http.HandleFunc("/postArgs2048", handlerPostArgs2048)
+	http.HandleFunc("/postArgsMulti2048", handlerPostArgsMulti2048)
+
     log.Fatal(http.ListenAndServe(":8282", nil))
 }
