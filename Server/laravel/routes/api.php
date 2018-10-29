@@ -41,3 +41,29 @@ Route::get('/8192', function () {
 	global $s8192;
 	return $s8192;
 });
+
+function read(Request $request) {
+	$prefix = 'abc';
+	$letter = 'a';
+	foreach (range('a', 'z') as $letter) {
+		$key = $prefix . $letter;
+		$f = $request->get($key);
+		echo "value " . $f;
+	}
+}
+
+Route::get('/getArgs2048', function (Request $request) {
+	read($request);
+	global $s2048;
+	return $s2048;
+});
+Route::post('/postArgs2048', function (Request $request) {
+	read($request);
+	global $s2048;
+	return $s2048;
+});
+Route::post('/postArgsMulti2048', function (Request $request) {
+	read($request);
+	global $s2048;
+	return $s2048;
+});
