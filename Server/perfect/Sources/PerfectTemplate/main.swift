@@ -48,6 +48,31 @@ routes.add(uri: "/8192") {
 	resp.setBody(string: big8192).completed()
 }
 
+routes.add(uri: "/getArgs2048") {
+	req, resp in
+	let prefix = "abc"
+	for c in "abcdefghijklmnopqrstuvwxyz" {
+		_ = req.param(name: prefix + String(c)) ?? ""
+	}
+	resp.setBody(string: big2048).completed()
+}
+routes.add(uri: "/postArgs2048") {
+	req, resp in
+	let prefix = "abc"
+	for c in "abcdefghijklmnopqrstuvwxyz" {
+		_ = req.param(name: prefix + String(c)) ?? ""
+	}
+	resp.setBody(string: big2048).completed()
+}
+routes.add(uri: "/postArgsMulti2048") {
+	req, resp in
+	let prefix = "abc"
+	for c in "abcdefghijklmnopqrstuvwxyz" {
+		_ = req.param(name: prefix + String(c)) ?? ""
+	}
+	resp.setBody(string: big2048).completed()
+}
+
 try HTTPServer.launch(name: "localhost",
 					  port: 8181,
 					  routes: routes)
