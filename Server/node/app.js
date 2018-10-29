@@ -10,6 +10,10 @@ var s2048Router = require('./routes/s2048');
 var s4096Router = require('./routes/s4096');
 var s8192Router = require('./routes/s8192');
 
+var getArgs2048 = require('./routes/getArgs2048');
+var postArgs2048 = require('./routes/postArgs2048');
+var postArgsMulti2048 = require('./routes/postArgsMulti2048');
+
 var app = express();
 
 // view engine setup
@@ -27,6 +31,10 @@ app.use('/1024', s1024Router);
 app.use('/2048', s2048Router);
 app.use('/4096', s4096Router);
 app.use('/8192', s8192Router);
+
+app.use('/getArgs2048', getArgs2048);
+app.use('/postArgs2048', postArgs2048);
+app.use('/postArgsMulti2048', postArgsMulti2048);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

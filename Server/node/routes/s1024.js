@@ -3,7 +3,6 @@ var router = express.Router();
 
 var s1024 = 'A'.repeat(1024)
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send(s1024);
 });
