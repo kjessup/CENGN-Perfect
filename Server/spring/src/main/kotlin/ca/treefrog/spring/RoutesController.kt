@@ -32,7 +32,7 @@ class RoutesController {
         val prefix = "abc"
         for (char in 'a'..'z') {
             val v = body[prefix + char]
-            print(v)
+            //print(v)
         }
     }
 
@@ -55,7 +55,7 @@ class RoutesController {
          val prefix = "abc"
         for (char in 'a'..'z') {
             val v = s.getParameter(prefix + char)
-            print(v)
+            //print(v)
         }
         return s2048
     }
