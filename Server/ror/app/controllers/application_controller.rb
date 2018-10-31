@@ -22,21 +22,21 @@ class ApplicationController < ActionController::API
 	def getArgs2048
 		('a'..'z').each do |n|
 			f = params['abc' + n]
-			puts String(f)
+			#puts String(f)
 		end
 		render plain: $s2048
 	end
 	def postArgs2048
 		('a'..'z').each do |n|
 			f = params['abc' + n]
-			puts String(f)
+			#puts String(f)
 		end
 		render plain: $s2048
 	end
 	def postArgsMulti2048
 		('a'..'z').each do |n|
 			f = params['abc' + n]
-			puts String(f)
+			#puts String(f)
 		end
 		render plain: $s2048
 	end
