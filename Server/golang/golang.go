@@ -3,6 +3,7 @@ package main
 import (
     "log"
     "net/http"
+    "runtime"
 )
 
 func Repeat(s string, count int) string {
@@ -67,6 +68,8 @@ func handlerPostArgsMulti2048(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+    runtime.GOMAXPROCS(runtime.NumCPU())
+
     http.HandleFunc("/empty", handlerEmpty)
     http.HandleFunc("/1024", handler1024)
     http.HandleFunc("/2048", handler2048)
