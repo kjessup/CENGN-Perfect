@@ -3,16 +3,20 @@
 JVM_ARGS="-Xms1024m -Xmx1024m"
 
 ports=${1:-"8181 8282 8383 8585 8686 8787 8888 8989 9000"}
-tests=${2:-"empty 1024 2048 4096 8192"}
+tests=${2:-"empty 2048 8192"}
 
 for port in $ports
 do
 	for test in $tests
 	do
 		echo "Test ${test} on port ${port}"
+		rm -rf Report-${test}-${port} Report-${test}-${port}.zip Request-${test}.${port}.out Request-${test}.${port}.out.zip
+		~/apache-jmeter-5.0/bin/jmeter.sh -Gport=${port} -Guri=${test} -n -t Request-Generic.jmx -R10.252.133.10,10.252.133.11,10.252.133.12 -l Request-${test}.${port}.out -e -o ./Report-${test}-${port}/ \
+			&& \
+		echo "Zipping Report-${test}-${port}.zip" && zip -r Report-${test}-${port}.zip Report-${test}-${port} \
+			&& \
+		echo "Zipping Request-${test}.${port}.out.zip" && zip -r Request-${test}.${port}.out Request-${test}.${port}.out.zip \
+			&& \
 		rm -rf Report-${test}-${port} Request-${test}.${port}.out
-		~/apache-jmeter-5.0/bin/jmeter.sh -Gport=${port} -Guri=${test} -n -t Request-Generic.jmx -R10.252.133.10,10.252.133.11,10.252.133.12 -l Request-${test}.${port}.out -e -o ./Report-${test}-${port}/
-		echo "Zipping Report-${test}-${port}.zip"
-		zip -r Report-${test}-${port}.zip Report-${test}-${port}
 	done
 done

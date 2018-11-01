@@ -10,9 +10,13 @@ do
 	for test in $tests
 	do
 		echo "Test ${test} on port ${port}"
+		rm -rf Report-${test}-${port} Report-${test}-${port}.zip Request-${test}.${port}.out Request-${test}.${port}.out.zip
+		~/apache-jmeter-5.0/bin/jmeter.sh -Gport=${port} -Guri=${test} -n -t Request-getArgs2048.jmx -R10.252.133.10,10.252.133.11,10.252.133.12 -l Request-${test}.${port}.out -e -o ./Report-${test}-${port}/ \
+			&& \
+		echo "Zipping Report-${test}-${port}.zip" && zip -r Report-${test}-${port}.zip Report-${test}-${port} \
+			&& \
+		echo "Zipping Request-${test}.${port}.out.zip" && zip -r Request-${test}.${port}.out Request-${test}.${port}.out.zip \
+			&& \
 		rm -rf Report-${test}-${port} Request-${test}.${port}.out
-		~/apache-jmeter-5.0/bin/jmeter.sh -Gport=${port} -Guri=${test} -n -t Request-getArgs2048.jmx -R10.252.133.10,10.252.133.11,10.252.133.12 -l Request-${test}.${port}.out -e -o ./Report-${test}-${port}/
-		echo "Zipping Report-${test}-${port}.zip"
-		zip -r Report-${test}-${port}.zip Report-${test}-${port}
 	done
 done
