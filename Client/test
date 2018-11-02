@@ -26,7 +26,7 @@ do
 		echo "Zipping Report-${test}-${port}.zip" && \
 		zip -r Report-${test}-${port}.zip Report-${test}-${port} && \
 		echo "Zipping Results-${test}-${port}.csv.zip" && \
-		zip Results-${test}-${port}.csv.zip Results-${test}-${port}.csv
+		zip Results-${test}-${port}.csv.zip Results-${test}-${port}.csv && \
 		rm -rf Report-${test}-${port} Results-${test}-${port}.csv
 	done
 done
