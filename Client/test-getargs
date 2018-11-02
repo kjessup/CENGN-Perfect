@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JVM_ARGS="-Xms1024m -Xmx1024m"
+export JVM_ARGS="-Xms4g -Xmx4g"
 
 ports=${1:-"8181 8282 8383 8585 8686 8787 8888 8989 9000"}
 tests=${2:-"getArgs2048"}

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+
+export JVM_ARGS="-Xms1g -Xmx1g"
+
+ports=${1:-"8181 8282 8383 8585 8686 8787 8888 8989 9000"}
+tests=${2:-"empty 2048 8192"}
+jmx=${3:-"Request-Generic.jmx"}
+
+for port in $ports
+do
+	for test in $tests
+	do
+		echo "Test ${test} on port ${port} with ${jmx}"
+		rm -rf Report-${test}-${port} \
+			Report-${test}-${port}.zip \
+			Results-${test}-${port}.csv \
+			Results-${test}-${port}.csv.zip
+		JVM_ARGS="-Xms1g -Xmx1g" ~/apache-jmeter-5.0/bin/jmeter.sh \
+			-Gport=${port} -Guri=${test} -n \
+			-t ${jmx} -R10.252.133.10,10.252.133.11,10.252.133.12 \
+			-l Results-${test}-${port}.csv -e \
+			-o ./Report-${test}-${port}/ \
+			&& \
+		echo "Zipping Report-${test}-${port}.zip" && \
+		zip -r Report-${test}-${port}.zip Report-${test}-${port} && \
+		echo "Zipping Results-${test}-${port}.csv.zip" && \
+		zip Results-${test}-${port}.csv.zip Results-${test}-${port}.csv
+		rm -rf Report-${test}-${port} Results-${test}-${port}.csv
+	done
+done
