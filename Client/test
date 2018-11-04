@@ -13,7 +13,7 @@ do
 	for test in $tests
 	do
 		echo "Test ${test} on port ${port} with ${jmx}"
-		rm Results-${test}-${port}.csv \
+		rm -f Results-${test}-${port}.csv \
 			Results-${test}-${port}.csv.zip
 		JVM_ARGS="-Xms6g -Xmx6g" HEAP="-Xms6g -Xmx6g -XX:MaxMetaspaceSize=256m" ~/apache-jmeter-5.0/bin/jmeter.sh \
 			-Gport=${port} -Guri=${test} -n \
