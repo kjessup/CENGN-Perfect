@@ -15,10 +15,10 @@
       <com.blazemeter.jmeter.threads.concurrency.ConcurrencyThreadGroup guiclass="com.blazemeter.jmeter.threads.concurrency.ConcurrencyThreadGroupGui" testclass="com.blazemeter.jmeter.threads.concurrency.ConcurrencyThreadGroup" testname="${__machineName()} Thread Group" enabled="true">
         <elementProp name="ThreadGroup.main_controller" elementType="com.blazemeter.jmeter.control.VirtualUserController"/>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <stringProp name="TargetLevel">1000</stringProp>
-        <stringProp name="RampUp">300</stringProp>
-        <stringProp name="Steps">100</stringProp>
-        <stringProp name="Hold">120</stringProp>
+        <stringProp name="TargetLevel">3</stringProp>
+        <stringProp name="RampUp">9</stringProp>
+        <stringProp name="Steps">3</stringProp>
+        <stringProp name="Hold">30</stringProp>
         <stringProp name="LogFilename"></stringProp>
         <stringProp name="Iterations"></stringProp>
         <stringProp name="Unit">S</stringProp>
@@ -211,6 +211,51 @@
           </objProp>
           <stringProp name="filename"></stringProp>
         </ResultCollector>
+        <hashTree/>
+        <kg.apc.jmeter.vizualizers.CorrectedResultCollector guiclass="kg.apc.jmeter.vizualizers.TransactionsPerSecondGui" testclass="kg.apc.jmeter.vizualizers.CorrectedResultCollector" testname="jp@gc - Transactions per Second" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+          <longProp name="interval_grouping">1000</longProp>
+          <boolProp name="graph_aggregated">false</boolProp>
+          <stringProp name="include_sample_labels"></stringProp>
+          <stringProp name="exclude_sample_labels"></stringProp>
+          <stringProp name="start_offset"></stringProp>
+          <stringProp name="end_offset"></stringProp>
+          <boolProp name="include_checkbox_state">false</boolProp>
+          <boolProp name="exclude_checkbox_state">false</boolProp>
+        </kg.apc.jmeter.vizualizers.CorrectedResultCollector>
         <hashTree/>
       </hashTree>
     </hashTree>
