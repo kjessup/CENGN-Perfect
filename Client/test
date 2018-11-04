@@ -13,20 +13,15 @@ do
 	for test in $tests
 	do
 		echo "Test ${test} on port ${port} with ${jmx}"
-		rm -rf Report-${test}-${port} \
-			Report-${test}-${port}.zip \
-			Results-${test}-${port}.csv \
+		rm Results-${test}-${port}.csv \
 			Results-${test}-${port}.csv.zip
 		JVM_ARGS="-Xms6g -Xmx6g" HEAP="-Xms6g -Xmx6g -XX:MaxMetaspaceSize=256m" ~/apache-jmeter-5.0/bin/jmeter.sh \
 			-Gport=${port} -Guri=${test} -n \
 			-t ${jmx} -R10.252.133.11,10.252.133.12,10.252.133.13 \
-			-l Results-${test}-${port}.csv -e \
-			-o ./Report-${test}-${port}/ \
+			-l Results-${test}-${port}.csv \
 			&& \
-		echo "Zipping Report-${test}-${port}.zip" && \
-		zip -r Report-${test}-${port}.zip Report-${test}-${port} && \
 		echo "Zipping Results-${test}-${port}.csv.zip" && \
 		zip Results-${test}-${port}.csv.zip Results-${test}-${port}.csv && \
-		rm -rf Report-${test}-${port} Results-${test}-${port}.csv
+		rm Results-${test}-${port}.csv
 	done
 done
