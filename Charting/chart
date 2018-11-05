@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -e
+
+if [ $1 == "all" ]
+then
+	keys=`psql -q -U postgres -d cengn -c "copy (select distinct(label) from request order by label) to stdout with csv"`
+	for key in ${keys}
+	do
+		./$0 ${key} &
+		pids[${i}]=$!
+	done
+	for pid in ${pids[*]}
+	do
+    	wait $pid
+	done
+else
+
+label=$1
+title=`echo ${label} | tr _ " "`
+./exportcsv ${label} ./tmp/Results-${label}
+gnuplot \
+	-e "successfile='./tmp/Results-${label}.success.csv'" \
+	-e "failurefile='./tmp/Results-${label}.failure.csv'" \
+	-e "title='\"${title}\" Request Total Time'" \
+	-c plot-elapsed.gnu > Charts/Results-${label}.elapsed.png
+gnuplot \
+	-e "successfile='./tmp/Results-${label}.success.csv'" \
+	-e "failurefile='./tmp/Results-${label}.failure.csv'" \
+	-e "title='\"${title}\" Requests Per Second'" \
+	-c plot-hits.gnu > Charts/Results-${label}.hits.png
+
+fi

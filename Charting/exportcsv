@@ -1,0 +1,34 @@
+#!/bin/bash
+# export test data from postgres into csv format
+# timeStamp,label,elapsed,responseCode,success,bytes,sentBytes,allThreads,latency,idleTime,connect
+set -e
+
+label=$1
+out="`pwd`/${2}"
+
+psql -U postgres -d cengn -c \
+"copy(\
+select (r.timestamp/1000) as time, \
+	round(avg(r.elapsed),2) as elapsed, \
+	round(avg(r.allthreads),2) as threads, \
+	count(*) as hits, \
+	round(avg(r.latency),2) as latency, \
+	min(r.elapsed) as elapsed_min, \
+	max(r.elapsed) as elapsed_max, \
+	min(r.latency) as latency_min, \
+	max(r.latency) as latency_max \
+from request as r \
+where label='${label}' and success \
+group by time \
+order by time) \
+to '${out}.success.csv' with csv header;"
+
+psql -U postgres -d cengn -c \
+"copy(\
+select (r.timestamp/1000) as time, \
+	count(*) as hits \
+from request as r \
+where label='${label}' and not success \
+group by time \
+order by time) \
+to '${out}.failure.csv' with csv header;"
