@@ -1,34 +1,65 @@
 #!/bin/bash
 # export test data from postgres into csv format
 # timeStamp,label,elapsed,responseCode,success,bytes,sentBytes,allThreads,latency,idleTime,connect
+# CREATE OR REPLACE FUNCTION _final_median(NUMERIC[])
+#    RETURNS NUMERIC AS
+# $$
+#    SELECT AVG(val)
+#    FROM (
+#      SELECT val
+#      FROM unnest($1) val
+#      ORDER BY 1
+#      LIMIT  2 - MOD(array_upper($1, 1), 2)
+#      OFFSET CEIL(array_upper($1, 1) / 2.0) - 1
+#    ) sub;
+# $$
+# LANGUAGE 'sql' IMMUTABLE;
+#  
+# CREATE AGGREGATE median(NUMERIC) (
+#   SFUNC=array_append,
+#   STYPE=NUMERIC[],
+#   FINALFUNC=_final_median,
+#   INITCOND='{}'
+# );
+
 set -e
 
 label=$1
 out="`pwd`/${2}"
 
-psql -U postgres -d cengn -c \
-"copy(\
-select (r.timestamp/1000) as time, \
-	round(avg(r.elapsed),2) as elapsed, \
-	round(avg(r.allthreads),2) as threads, \
-	count(*) as hits, \
-	round(avg(r.latency),2) as latency, \
-	min(r.elapsed) as elapsed_min, \
-	max(r.elapsed) as elapsed_max, \
-	min(r.latency) as latency_min, \
-	max(r.latency) as latency_max \
-from request as r \
-where label='${label}' and success \
-group by time \
-order by time) \
-to '${out}.success.csv' with csv header;"
-
-psql -U postgres -d cengn -c \
-"copy(\
-select (r.timestamp/1000) as time, \
-	count(*) as hits \
-from request as r \
-where label='${label}' and not success \
-group by time \
-order by time) \
-to '${out}.failure.csv' with csv header;"
+if [ ! -f "${out}.success.csv" ]; then
+	psql -U postgres -d cengn <<<"copy(
+	select CAST((r.timestamp/1000) as INTEGER) as time, 
+		round(avg(r.elapsed),2) as elapsed, 
+		round(avg(r.allthreads)*3,2) as threads, 
+		count(*) as hits, 
+		round(avg(r.latency),2) as latency, 
+		min(r.elapsed) as elapsed_min, 
+		max(r.elapsed) as elapsed_max, 
+		min(r.latency) as latency_min, 
+		max(r.latency) as latency_max, 
+		CAST(percentile_cont (0.25) WITHIN GROUP
+				(ORDER BY elapsed ASC) as INTEGER) as percentile_25,
+		CAST(percentile_cont (0.50) WITHIN GROUP
+				(ORDER BY elapsed ASC) as INTEGER) as percentile_50,
+		CAST(percentile_cont (0.75) WITHIN GROUP
+				(ORDER BY elapsed ASC) as INTEGER) as percentile_75,
+		CAST(percentile_cont (0.95) WITHIN GROUP
+				(ORDER BY elapsed ASC) as INTEGER) as percentile_95
+	from request as r 
+	where label='${label}' and success 
+	group by time 
+	order by time) 
+	to '${out}.success.csv' with csv header;"
+fi
+if [ ! -f "${out}.failure.csv" ]; then
+	psql -U postgres -d cengn -c \
+	"copy(\
+	select CAST((r.timestamp/1000) as INTEGER) as time, \
+		count(*) as hits \
+	from request as r \
+	where label='${label}' and not success \
+	group by time \
+	order by time) \
+	to '${out}.failure.csv' with csv header;"
+fi
