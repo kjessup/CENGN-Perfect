@@ -74,6 +74,7 @@ func main() {
     http.HandleFunc("/1024", handler1024)
     http.HandleFunc("/2048", handler2048)
 	http.HandleFunc("/4096", handler4096)
+	http.HandleFunc("/8192", handler8192)
 
 	http.HandleFunc("/getArgs2048", handlerGetArgs2048)
 	http.HandleFunc("/postArgs2048", handlerPostArgs2048)
