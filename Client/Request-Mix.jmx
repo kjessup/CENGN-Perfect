@@ -216,7 +216,7 @@
               </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain">10.252.133.5</stringProp>
-            <stringProp name="HTTPSampler.port">${__P(port,8080)}</stringProp>
+            <stringProp name="HTTPSampler.port">${__P(port)}</stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
             <stringProp name="HTTPSampler.path">/postArgs2048</stringProp>
@@ -418,7 +418,7 @@
               </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain">10.252.133.5</stringProp>
-            <stringProp name="HTTPSampler.port">${__P(port,8080)}</stringProp>
+            <stringProp name="HTTPSampler.port">${__P(port)}</stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
             <stringProp name="HTTPSampler.path">/postArgs2048</stringProp>
@@ -437,7 +437,7 @@
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
             <stringProp name="HTTPSampler.domain">10.252.133.5</stringProp>
-            <stringProp name="HTTPSampler.port">${__P(port,8080)}</stringProp>
+            <stringProp name="HTTPSampler.port">${__P(port)}</stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
             <stringProp name="HTTPSampler.path">/8192</stringProp>
@@ -456,7 +456,7 @@
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
             <stringProp name="HTTPSampler.domain">10.252.133.5</stringProp>
-            <stringProp name="HTTPSampler.port">${__P(port,8080)}</stringProp>
+            <stringProp name="HTTPSampler.port">${__P(port)}</stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
             <stringProp name="HTTPSampler.path">/2048</stringProp>
@@ -658,7 +658,7 @@
               </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain">10.252.133.5</stringProp>
-            <stringProp name="HTTPSampler.port">${__P(port,8181)}</stringProp>
+            <stringProp name="HTTPSampler.port">${__P(port)}</stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
             <stringProp name="HTTPSampler.path">/getArgs2048</stringProp>
