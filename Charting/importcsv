@@ -4,5 +4,7 @@ set -e
 
 input=$1
 label=$2
-
-ProcessCSV/ProcessCSV ${input} ${label} | psql -U postgres -d cengn -c "copy request from stdin csv header;"
+tableName=${label}
+psql -U postgres -d cengn -c "CREATE TABLE IF NOT EXISTS ${tableName} (LIKE request INCLUDING ALL)"
+psql -U postgres -d cengn -c "DELETE FROM ${tableName};"
+ProcessCSV/ProcessCSV ${input} ${label} | psql -U postgres -d cengn -c "COPY ${tableName} FROM stdin csv header;"

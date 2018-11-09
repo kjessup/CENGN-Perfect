@@ -4,7 +4,7 @@ set -e
 
 if [ $1 == "all" ]
 then
-	keys=`psql -q -U postgres -d cengn -c "copy (select distinct(label) from request order by label) to stdout with csv"`
+	keys=`./list`
 	for key in ${keys}
 	do
 		./$0 ${key} &

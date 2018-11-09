@@ -25,6 +25,7 @@
 set -e
 
 label=$1
+tableName=${label}
 out="`pwd`/${2}"
 
 if [ ! -f "${out}.success.csv" ]; then
@@ -46,8 +47,8 @@ if [ ! -f "${out}.success.csv" ]; then
 				(ORDER BY elapsed ASC) as INTEGER) as percentile_75,
 		CAST(percentile_cont (0.95) WITHIN GROUP
 				(ORDER BY elapsed ASC) as INTEGER) as percentile_95
-	from request as r 
-	where label='${label}' and success 
+	from ${tableName} as r 
+	where success 
 	group by time 
 	order by time) 
 	to '${out}.success.csv' with csv header;"
@@ -57,8 +58,8 @@ if [ ! -f "${out}.failure.csv" ]; then
 	"copy(\
 	select CAST((r.timestamp/1000) as INTEGER) as time, \
 		count(*) as hits \
-	from request as r \
-	where label='${label}' and not success \
+	from ${tableName} as r \
+	where not success \
 	group by time \
 	order by time) \
 	to '${out}.failure.csv' with csv header;"
