@@ -54,17 +54,17 @@ func read(r *http.Request) {
 
 func handlerGetArgs2048(w http.ResponseWriter, r *http.Request) {
     read(r)
-	w.Write(s8192)
+	w.Write(s2048)
 }
 func handlerPostArgs2048(w http.ResponseWriter, r *http.Request) {
     r.ParseForm()
     read(r)
-	w.Write(s8192)
+	w.Write(s2048)
 }
 func handlerPostArgsMulti2048(w http.ResponseWriter, r *http.Request) {
     r.ParseMultipartForm(32 << 20)
     read(r)
-	w.Write(s8192)
+	w.Write(s2048)
 }
 
 func main() {
