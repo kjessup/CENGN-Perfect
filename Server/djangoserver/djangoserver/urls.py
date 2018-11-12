@@ -37,10 +37,9 @@ class PlainTextRenderer(renderers.BaseRenderer):
 	def render(self, data, media_type=None, renderer_context=None):
 		return data.encode(self.charset)
 
-s1024 = 'A' * 1024
 s2048 = 'A' * 2048
-s4096 = 'A' * 4096
 s8192 = 'A' * 8192
+s32768 = 'A' * 32768
 
 @api_view(['GET'])
 @renderer_classes((PlainTextRenderer,))
@@ -49,23 +48,18 @@ def empty_view(request, format=None):
 
 @api_view(['GET'])
 @renderer_classes((PlainTextRenderer,))
-def s1024_view(request, format=None):
-	return Response(s1024)
-
-@api_view(['GET'])
-@renderer_classes((PlainTextRenderer,))
 def s2048_view(request, format=None):
 	return Response(s2048)
 
 @api_view(['GET'])
 @renderer_classes((PlainTextRenderer,))
-def s4096_view(request, format=None):
-	return Response(s4096)
+def s8192_view(request, format=None):
+	return Response(s8192)
 
 @api_view(['GET'])
 @renderer_classes((PlainTextRenderer,))
-def s8192_view(request, format=None):
-	return Response(s8192)
+def s32768_view(request, format=None):
+	return Response(s32768)
 
 # --
 
@@ -103,10 +97,9 @@ def postArgsMulti_view(request, format=None):
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
 			   url(r'^empty', empty_view),
-			   url(r'^1024', s1024_view),
 			   url(r'^2048', s2048_view),
-			   url(r'^4096', s4096_view),
 			   url(r'^8192', s8192_view),
+			   url(r'^32768', s32768_view),
 			   
 			   url(r'^getArgs2048', getArgs_view),
 			   url(r'^postArgs2048', postArgs_view),

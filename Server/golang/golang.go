@@ -16,29 +16,24 @@ func Repeat(s string, count int) string {
     return string(b)
 }
 
-var s1024 = []byte(Repeat("A", 1024))
 var s2048 = []byte(Repeat("A", 2048))
-var s4096 = []byte(Repeat("A", 4096))
 var s8192 = []byte(Repeat("A", 8192))
+var s32768 = []byte(Repeat("A", 32768))
 
 func handlerEmpty(w http.ResponseWriter, r *http.Request) {
     
-}
-
-func handler1024(w http.ResponseWriter, r *http.Request) {
-    w.Write(s1024)
 }
 
 func handler2048(w http.ResponseWriter, r *http.Request) {
     w.Write(s2048)
 }
 
-func handler4096(w http.ResponseWriter, r *http.Request) {
-	w.Write(s4096)
-}
-
 func handler8192(w http.ResponseWriter, r *http.Request) {
 	w.Write(s8192)
+}
+
+func handler32768(w http.ResponseWriter, r *http.Request) {
+	w.Write(s32768)
 }
 
 // --
@@ -71,10 +66,9 @@ func main() {
     runtime.GOMAXPROCS(runtime.NumCPU())
 
     http.HandleFunc("/empty", handlerEmpty)
-    http.HandleFunc("/1024", handler1024)
     http.HandleFunc("/2048", handler2048)
-	http.HandleFunc("/4096", handler4096)
-	http.HandleFunc("/8192", handler8192)
+    http.HandleFunc("/8192", handler8192)
+    http.HandleFunc("/32768", handler32768)
 
 	http.HandleFunc("/getArgs2048", handlerGetArgs2048)
 	http.HandleFunc("/postArgs2048", handlerPostArgs2048)

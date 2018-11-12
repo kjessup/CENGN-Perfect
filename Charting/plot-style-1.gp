@@ -5,8 +5,7 @@
 set autoscale
 set key autotitle columnhead
 set datafile separator ","
-set terminal png size 2048,1024 enhanced font "arial,20" noenhanced
-set title title
+set terminal pdf size 8.5in,11in font "arial,20" noenhanced
 set xlabel "Seconds"
 set zlabel "Client Threads"
 set xtics 30

@@ -2,6 +2,8 @@
 
 set -e
 
+uncache=${2:-""}
+
 if [ $1 == "all" ]
 then
 	keys=`./list`
@@ -12,17 +14,17 @@ then
 	wait
 else
 	label=$1
+	if [[ ! -z $uncache ]]
+	then
+		rm -f ./tmp/Results-${label}.*.csv
+	fi
 	title=`echo ${label} | tr _ " "`
 	./exportcsv ${label} ./tmp/Results-${label}
 	gnuplot \
 		-e "successfile='./tmp/Results-${label}.success.csv'" \
 		-e "failurefile='./tmp/Results-${label}.failure.csv'" \
-		-e "title='\"${title}\" Request Total Time'" \
-		-c plot-elapsed.gnu > Charts/Results-${label}.elapsed.png
-	gnuplot \
-		-e "successfile='./tmp/Results-${label}.success.csv'" \
-		-e "failurefile='./tmp/Results-${label}.failure.csv'" \
-		-e "title='\"${title}\" Requests Per Second'" \
-		-c plot-hits.gnu > Charts/Results-${label}.hits.png
+		-e "title2='\"${title}\" Request Total Time'" \
+		-e "title1='\"${title}\" Requests Per Second'" \
+		-c plot-elapsed.gnu > Charts/Results-${label}.pdf
 fi
 echo complete

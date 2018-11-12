@@ -6,27 +6,23 @@ import org.springframework.http.MediaType
 import org.springframework.util.MultiValueMap
 import org.springframework.web.multipart.MultipartHttpServletRequest
 
-var s1024 = "A".repeat(1024)
 var s2048 = "A".repeat(2048)
-var s4096 = "A".repeat(4096)
 var s8192 = "A".repeat(8192)
+var s32768 = "A".repeat(32768)
 
 @RestController
 class RoutesController {
     @GetMapping("/empty")
     fun empty() = ""
     
-    @GetMapping("/1024")
-    fun s1024() = s1024
-    
     @GetMapping("/2048")
     fun s2048() = s2048
     
-    @GetMapping("/4096")
-    fun s4096() = s4096
-    
     @GetMapping("/8192")
     fun s8192() = s8192
+    
+    @GetMapping("/32768")
+    fun s32768() = s32768
     
     fun printArgs(body: Map<String,String>) {
         val prefix = "abc"

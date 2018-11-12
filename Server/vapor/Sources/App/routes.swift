@@ -1,10 +1,9 @@
 import Vapor
 import Multipart
 
-let big1024 = String(repeating: "A", count: 1024)
 let big2048 = String(repeating: "A", count: 2048)
-let big4096 = String(repeating: "A", count: 4096)
 let big8192 = String(repeating: "A", count: 8192)
+let big32768 = String(repeating: "A", count: 32768)
 
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
@@ -13,21 +12,17 @@ public func routes(_ router: Router) throws {
 		req in
 		return ""
 	}
-	router.get("/1024") {
-		req in
-		return big1024
-	}
 	router.get("/2048") {
 		req in
 		return big2048
 	}
-	router.get("/4096") {
-		req in
-		return big4096
-	}
 	router.get("/8192") {
 		req in
 		return big8192
+	}
+	router.get("/32768") {
+		req in
+		return big32768
 	}
 	
 	let prefix = "abc"
@@ -65,32 +60,4 @@ public func routes(_ router: Router) throws {
 			return big2048
 		}
 	}
-	
-//	router.get("/getArgs2048") {
-//		req in
-//		let prefix = "abc"
-//		for c in "abcdefghijklmnopqrstuvwxyz" {
-//			let v = req.parameters.next(prefix + String(c))
-//			print(v)
-//		}
-//		return big2048
-//	}
-//	router.post("/postArgs2048") {
-//		req in
-//		let prefix = "abc"
-//		for c in "abcdefghijklmnopqrstuvwxyz" {
-//			let v = req.parameters.next(prefix + String(c))
-//			print(v)
-//		}
-//		return big2048
-//	}
-//	router.post("/postArgsMulti2048") {
-//		req in
-//		let prefix = "abc"
-//		for c in "abcdefghijklmnopqrstuvwxyz" {
-//			let v = req.parameters.next(prefix + String(c))
-//			print(v)
-//		}
-//		return big2048
-//	}
 }

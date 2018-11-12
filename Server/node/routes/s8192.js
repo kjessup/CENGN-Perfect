@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-var s8192 = 'A'.repeat(8192)
+var s32768 = 'A'.repeat(32768)
 
 router.get('/', function(req, res, next) {
-  res.send(s8192);
+  res.send(s32768);
 });
 
 module.exports = router;
