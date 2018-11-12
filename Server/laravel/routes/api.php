@@ -17,6 +17,7 @@ global $s1024;
 global $s2048;
 global $s4096;
 global $s8192;
+global $s32768;
 
 $s2048 = str_repeat("A", 2048);
 $s8192 = str_repeat("A", 8192);
