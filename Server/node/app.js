@@ -5,10 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var emptyRouter = require('./routes/empty');
-var s1024Router = require('./routes/s1024');
 var s2048Router = require('./routes/s2048');
-var s4096Router = require('./routes/s4096');
 var s8192Router = require('./routes/s8192');
+var s32768Router = require('./routes/s32768');
 
 var getArgs2048 = require('./routes/getArgs2048');
 var postArgs2048 = require('./routes/postArgs2048');
@@ -27,10 +26,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/empty', emptyRouter);
-app.use('/1024', s1024Router);
 app.use('/2048', s2048Router);
-app.use('/4096', s4096Router);
 app.use('/8192', s8192Router);
+app.use('/32768', s32768Router);
 
 app.use('/getArgs2048', getArgs2048);
 app.use('/postArgs2048', postArgs2048);
