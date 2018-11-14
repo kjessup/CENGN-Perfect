@@ -9,4 +9,4 @@ ports=${1:-"8181 8282 8383 8585 8686 8787 8989 9000"}
 ./test ${ports} postArgs2048 Request-postArgs2048.jmx
 ./test ${ports} postArgsMulti2048 Request-postArgsMulti2048.jmx
 ./test ${ports} json Request-echoJson.jmx
-./test ${ports} mix Request-mix.jmx
+./test ${ports} mix Request-Mix.jmx
