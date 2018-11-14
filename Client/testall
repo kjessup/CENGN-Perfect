@@ -2,7 +2,7 @@
 
 set -e
 
-ports=$1
+ports=${1:-"8181 8282 8383 8585 8686 8787 8989 9000"}
 
 ./test ${ports} "empty 2048 32768" Request-Generic.jmx
 ./test ${ports} getArgs2048 Request-getArgs2048.jmx
