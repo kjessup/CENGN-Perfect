@@ -37,4 +37,7 @@ class ApplicationController < ActionController::API
 		end
 		render plain: $s2048
 	end
+	def json
+		render json: params['application']
+	end
 end

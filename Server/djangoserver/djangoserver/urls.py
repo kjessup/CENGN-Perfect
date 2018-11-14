@@ -20,7 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 """
-
+import json
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from rest_framework import serializers, viewsets, routers
@@ -29,17 +29,22 @@ from rest_framework.views import APIView
 from rest_framework import renderers
 from django.utils.decorators import method_decorator
 from rest_framework.decorators import api_view, renderer_classes
+from django.http import JsonResponse
 
 class PlainTextRenderer(renderers.BaseRenderer):
 	media_type = 'text/plain'
 	format = 'txt'
-			
 	def render(self, data, media_type=None, renderer_context=None):
 		return data.encode(self.charset)
 
 s2048 = 'A' * 2048
 s8192 = 'A' * 8192
 s32768 = 'A' * 32768
+
+class CRUDUser:
+	id = ""
+	firstName = ""
+	lastName = ""
 
 @api_view(['GET'])
 @renderer_classes((PlainTextRenderer,))
@@ -92,6 +97,12 @@ def postArgsMulti_view(request, format=None):
 	read(request.POST)
 	return Response(s2048)
 
+@api_view(['POST'])
+@renderer_classes((PlainTextRenderer,))
+def json_view(request, format=None):
+	json_data = json.loads(request.body)
+	return JsonResponse(json_data)
+
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
@@ -104,6 +115,7 @@ urlpatterns = [
 			   url(r'^getArgs2048', getArgs_view),
 			   url(r'^postArgs2048', postArgs_view),
 			   url(r'^postArgsMulti2048', postArgsMulti_view),
+			   url(r'^json', json_view),
 #    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 

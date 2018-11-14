@@ -64,3 +64,6 @@ Route::post('/postArgsMulti2048', function (Request $request) {
 	global $s2048;
 	return $s2048;
 });
+Route::post('/json', function (Request $request) {
+	return $request->json()->all();
+});

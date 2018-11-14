@@ -4,6 +4,7 @@ import (
     "log"
     "net/http"
     "runtime"
+    "encoding/json"
 )
 
 func Repeat(s string, count int) string {
@@ -19,6 +20,12 @@ func Repeat(s string, count int) string {
 var s2048 = []byte(Repeat("A", 2048))
 var s8192 = []byte(Repeat("A", 8192))
 var s32768 = []byte(Repeat("A", 32768))
+
+type CRUDUser struct {
+    Id string `json:"id"`
+    FirstName string `json:"firstName"`
+    LastName string `json:"lastName"`
+}
 
 func handlerEmpty(w http.ResponseWriter, r *http.Request) {
     
@@ -62,6 +69,16 @@ func handlerPostArgsMulti2048(w http.ResponseWriter, r *http.Request) {
 	w.Write(s2048)
 }
 
+func handlerJson(w http.ResponseWriter, r *http.Request) {
+    var t CRUDUser
+    err := json.NewDecoder(r.Body).Decode(&t)
+    if err != nil {
+        panic(err)
+    }
+    json.NewEncoder(w).Encode(t)
+}
+
+
 func main() {
     runtime.GOMAXPROCS(runtime.NumCPU())
 
@@ -73,6 +90,7 @@ func main() {
 	http.HandleFunc("/getArgs2048", handlerGetArgs2048)
 	http.HandleFunc("/postArgs2048", handlerPostArgs2048)
 	http.HandleFunc("/postArgsMulti2048", handlerPostArgsMulti2048)
+	http.HandleFunc("/json", handlerJson)
 
     log.Fatal(http.ListenAndServe(":8282", nil))
 }

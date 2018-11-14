@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   get 'getArgs2048', to: 'application#getArgs2048'
   post 'postArgs2048', to: 'application#postArgs2048'
   post 'postArgsMulti2048', to: 'application#postArgsMulti2048'
+  post 'json', to: 'application#json'
 end

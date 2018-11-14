@@ -26,6 +26,12 @@ let big2048 = String(repeating: "A", count: 2048)
 let big8192 = String(repeating: "A", count: 8192)
 let big32768 = String(repeating: "A", count: 32768)
 
+struct CRUDUser: Codable {
+	let id: String
+	let firstName: String
+	let lastName: String
+}
+
 routes.add(uri: "/empty") {
 	req, resp in
 	resp.completed()
@@ -67,6 +73,11 @@ routes.add(uri: "/postArgsMulti2048") {
 	}
 	resp.setBody(string: big2048).completed()
 }
+let tr = TRoute(method: .post, uri: "/json") {
+	(req: HTTPRequest) in
+	return try req.decode(CRUDUser.self)
+}
+routes.add(tr)
 
 try HTTPServer.launch(name: "localhost",
 					  port: 8181,

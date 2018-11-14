@@ -5,10 +5,21 @@ import org.springframework.web.multipart.MultipartFile
 import org.springframework.http.MediaType
 import org.springframework.util.MultiValueMap
 import org.springframework.web.multipart.MultipartHttpServletRequest
+import com.fasterxml.jackson.annotation.JsonProperty
 
 var s2048 = "A".repeat(2048)
 var s8192 = "A".repeat(8192)
 var s32768 = "A".repeat(32768)
+
+data class CRUDUser(
+        @JsonProperty("id")
+        val id: String,
+
+        @JsonProperty("firstName")
+        val firstName: String,
+
+        @JsonProperty("lastName")
+        val lastName: String)
 
 @RestController
 class RoutesController {
@@ -48,11 +59,19 @@ class RoutesController {
     @RequestMapping(value="/postArgsMulti2048", method=[RequestMethod.POST],
                     consumes=[MediaType.MULTIPART_FORM_DATA_VALUE])
     fun postArgsMulti2048(s: MultipartHttpServletRequest): String {
-         val prefix = "abc"
+        val prefix = "abc"
         for (char in 'a'..'z') {
             val v = s.getParameter(prefix + char)
             //print(v)
         }
         return s2048
+    }
+    
+    @RequestMapping(value="/json", 
+        method=[RequestMethod.POST], 
+        produces = [MediaType.APPLICATION_JSON_VALUE], 
+        consumes = [MediaType.APPLICATION_JSON_VALUE])
+    fun json(@RequestBody user: CRUDUser): CRUDUser {
+        return user
     }
 }

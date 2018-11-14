@@ -12,6 +12,7 @@ var s32768Router = require('./routes/s32768');
 var getArgs2048 = require('./routes/getArgs2048');
 var postArgs2048 = require('./routes/postArgs2048');
 var postArgsMulti2048 = require('./routes/postArgsMulti2048');
+var json = require('./routes/json');
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use('/32768', s32768Router);
 app.use('/getArgs2048', getArgs2048);
 app.use('/postArgs2048', postArgs2048);
 app.use('/postArgsMulti2048', postArgsMulti2048);
+app.use('/json', json);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
