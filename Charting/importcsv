@@ -1,5 +1,5 @@
 #!/bin/bash
-# import jmeter results csv file into postgres
+# import jmeter results csv.zip file into postgres
 set -e
 
 input=$1
@@ -7,4 +7,4 @@ label=$2
 tableName=${label}
 psql -U postgres -d cengn -c "CREATE TABLE IF NOT EXISTS ${tableName} (LIKE request INCLUDING ALL)"
 psql -U postgres -d cengn -c "TRUNCATE ${tableName};"
-ProcessCSV/ProcessCSV ${input} ${label} | psql -U postgres -d cengn -c "COPY ${tableName} FROM stdin csv header;"
+unzip -q -c ${input} | ./ProcessCSV/ProcessCSV ${label} | psql -U postgres -d cengn -c "COPY ${tableName} FROM stdin csv header;"
