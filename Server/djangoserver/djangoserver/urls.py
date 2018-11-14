@@ -100,9 +100,9 @@ def postArgsMulti_view(request, format=None):
 @api_view(['POST'])
 @renderer_classes((PlainTextRenderer,))
 def json_view(request, format=None):
-	json_data = json.loads(request.body)
+	new_data = request.body.decode("utf-8", "strict")
+	json_data = json.loads(new_data)
 	return JsonResponse(json_data)
-
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
