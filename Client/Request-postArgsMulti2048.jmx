@@ -215,7 +215,7 @@
           <stringProp name="HTTPSampler.port">${__P(port,8080)}</stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/${__P(uri,postArgs2048)}</stringProp>
+          <stringProp name="HTTPSampler.path">/${__P(uri,postArgsMulti2048)}</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
