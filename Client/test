@@ -34,7 +34,7 @@ do
 		psql -q -h ubuntuvm -U zabbix -d zabbix <<<"copy(
 			select clock, value 
 			from history 
-			where itemid=28504 && clock >= ${startTime} && clock <= ${endTime}
+			where itemid=28504 and clock between ${startTime} and ${endTime}
 			order by clock desc) 
 			to stdout with csv header;" > Results-${test}-${port}.cpu.csv
 		echo "Zipping Results-${test}-${port}.cpu.csv.zip" && \
