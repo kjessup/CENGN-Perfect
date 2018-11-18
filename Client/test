@@ -29,7 +29,7 @@ do
 		
 		echo "Zipping Results-${test}-${port}.csv.zip" && \
 		zip Results-${test}-${port}.csv.zip Results-${test}-${port}.csv && \
-		rm Results-${test}-${port}.csv Results-${test}-${port}.cpu.csv
+		rm Results-${test}-${port}.csv
 		
 		psql -q -h ubuntuvm -U zabbix -d zabbix <<<"copy(
 			select clock, value 
@@ -39,7 +39,7 @@ do
 			to stdout with csv header;" > Results-${test}-${port}.cpu.csv
 		echo "Zipping Results-${test}-${port}.cpu.csv.zip" && \
 		zip Results-${test}-${port}.cpu.csv.zip Results-${test}-${port}.cpu.csv && \
-		rm Results-${test}-${port}*.csv
+		rm Results-${test}-${port}.cpu.csv
 		
 	done
 done
