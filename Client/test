@@ -15,15 +15,29 @@ do
 	do
 		echo "Test ${test} on port ${port} with ${jmx}"
 		rm -f Results-${test}-${port}.csv \
+			Results-${test}-${port}.cpu.csv \
 			Results-${test}-${port}.csv.zip
+		
+		startTime=`date +%s`
+		
 		JVM_ARGS="-Xms6g -Xmx6g" HEAP="-Xms6g -Xmx6g -XX:MaxMetaspaceSize=256m" ~/apache-jmeter-5.0/bin/jmeter.sh \
 			-Jport=${port} -Juri=${test} \
 			-Gport=${port} -Guri=${test} -n \
 			-t ${jmx} ${minions} \
-			-l Results-${test}-${port}.csv \
-			&& \
+			-l Results-${test}-${port}.csv || exit 1
+		
+		endTime=`date +%s`
+		
+		psql -h ubuntuvm -U zabbix -d zabbix <<<"copy(
+			select clock, value 
+			from history 
+			where itemid=28504 && clock >= ${startTime} && clock <= ${endTime}
+			order by clock desc) 
+			to stdout with csv header;" > Results-${test}-${port}.cpu.csv
+		
+		
 		echo "Zipping Results-${test}-${port}.csv.zip" && \
-		zip Results-${test}-${port}.csv.zip Results-${test}-${port}.csv && \
-		rm Results-${test}-${port}.csv
+		zip Results-${test}-${port}.csv.zip Results-${test}-${port}.csv Results-${test}-${port}.cpu.csv && \
+		rm Results-${test}-${port}.csv Results-${test}-${port}.cpu.csv
 	done
 done
