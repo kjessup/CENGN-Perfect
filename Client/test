@@ -14,9 +14,8 @@ do
 	for test in $tests
 	do
 		echo "Test ${test} on port ${port} with ${jmx}"
-		rm -f Results-${test}-${port}.csv \
-			Results-${test}-${port}.cpu.csv \
-			Results-${test}-${port}.csv.zip
+		rm -f Results-${test}-${port}*.csv \
+			Results-${test}-${port}*.zip
 		
 		startTime=`date +%s`
 		
@@ -26,18 +25,21 @@ do
 			-t ${jmx} ${minions} \
 			-l Results-${test}-${port}.csv || exit 1
 		
-		endTime=`date +%s`
+		endTime=`date +%s`		
 		
-		psql -h ubuntuvm -U zabbix -d zabbix <<<"copy(
+		echo "Zipping Results-${test}-${port}.csv.zip" && \
+		zip Results-${test}-${port}.csv.zip Results-${test}-${port}.csv && \
+		rm Results-${test}-${port}.csv Results-${test}-${port}.cpu.csv
+		
+		psql -q -h ubuntuvm -U zabbix -d zabbix <<<"copy(
 			select clock, value 
 			from history 
 			where itemid=28504 && clock >= ${startTime} && clock <= ${endTime}
 			order by clock desc) 
 			to stdout with csv header;" > Results-${test}-${port}.cpu.csv
+		echo "Zipping Results-${test}-${port}.cpu.csv.zip" && \
+		zip Results-${test}-${port}.cpu.csv.zip Results-${test}-${port}.cpu.csv && \
+		rm Results-${test}-${port}*.csv
 		
-		
-		echo "Zipping Results-${test}-${port}.csv.zip" && \
-		zip Results-${test}-${port}.csv.zip Results-${test}-${port}.csv Results-${test}-${port}.cpu.csv && \
-		rm Results-${test}-${port}.csv Results-${test}-${port}.cpu.csv
 	done
 done
