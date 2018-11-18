@@ -12,8 +12,8 @@ let big32768 = String(repeating: "A", count: 32768)
 func printTupes(_ t: [String:String]) {
 	for c in "abcdefghijklmnopqrstuvwxyz" {
 		let key = prefix + String(c)
-		let fnd = t[key]
-		print(fnd)
+		let _ = t[key]
+		//print(fnd)
 	}
 }
 
@@ -63,8 +63,8 @@ func initializeRoutes(app: App) {
 		if let body = req.body?.asMultiPart {
 			for c in "abcdefghijklmnopqrstuvwxyz" {
 				let key = prefix + String(c)
-				let fnd = body.first { $0.name == key }
-				print(fnd?.body.asText)
+				let _ = body.first { $0.name == key }
+				//print(fnd?.body.asText)
 			}
 		}
 		try response.send(big2048).end()
