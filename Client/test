@@ -19,7 +19,7 @@ do
 		
 		startTime=`date +%s`
 		
-		JVM_ARGS="-Xms6g -Xmx6g" HEAP="-Xms6g -Xmx6g -XX:MaxMetaspaceSize=256m -XX:-UseGCOverheadLimit" ~/apache-jmeter-5.0/bin/jmeter.sh \
+		JVM_ARGS="-Xms10g -Xmx10g" HEAP="-Xms10g -Xmx10g -XX:MaxMetaspaceSize=256m -XX:-UseGCOverheadLimit" ~/apache-jmeter-5.0/bin/jmeter.sh \
 			-Jport=${port} -Juri=${test} \
 			-Gport=${port} -Guri=${test} -n \
 			-t ${jmx} ${minions} \
