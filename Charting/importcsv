@@ -11,5 +11,6 @@ tableName=${label}
 psql -U postgres -d cengn -c "CREATE TABLE IF NOT EXISTS ${tableName} (LIKE request INCLUDING ALL)"
 psql -U postgres -d cengn -c "TRUNCATE ${tableName};"
 unzip -q -c "${cpufile}" > "/tmp/${cpubase}"
-unzip -q -c "${input}" | ./ProcessCSV/ProcessCSV "${label}" "/tmp/${cpubase}" 
-# | psql -U postgres -d cengn -c "COPY ${tableName} FROM stdin csv header;"
+unzip -q -c "${input}" | \
+	./ProcessCSV/ProcessCSV "${label}" "/tmp/${cpubase}" | \
+	psql -U postgres -d cengn -c "COPY ${tableName} FROM stdin csv header;"

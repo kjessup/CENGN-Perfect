@@ -9,7 +9,7 @@ set terminal pdf size 8.5in,11in font "arial,20" noenhanced
 set xlabel "Seconds"
 set zlabel "Client Threads"
 set xtics 30
-set xrange [0:425]
+set xrange [1:419]
 set grid
 set style fill solid 1.0
 set palette rgb 33,13,10
