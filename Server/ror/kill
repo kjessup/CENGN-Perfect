@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo a2dissite 000-ror.conf
+sudo service apache2 reload

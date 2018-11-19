@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo a2ensite 000-laravel.conf
+sudo service apache2 reload
