@@ -1,0 +1,11 @@
+#!/bin/bash
+
+curl http://localhost:8181/empty
+curl http://localhost:8282/empty
+curl http://localhost:8383/empty
+curl http://localhost:8585/empty
+curl http://localhost:8686/empty
+curl http://localhost:8787/empty
+curl http://localhost:8888/empty
+curl http://localhost:8989/empty
+curl http://localhost:9000/empty
