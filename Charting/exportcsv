@@ -46,7 +46,8 @@ if [ ! -f "${out}.success.csv" ]; then
 		CAST(percentile_cont (0.75) WITHIN GROUP
 				(ORDER BY elapsed ASC) as INTEGER) as percentile_75,
 		CAST(percentile_cont (0.95) WITHIN GROUP
-				(ORDER BY elapsed ASC) as INTEGER) as percentile_95
+				(ORDER BY elapsed ASC) as INTEGER) as percentile_95,
+		avg(r.cpu) as cpu
 	from ${tableName} as r 
 	where success 
 	group by time 
