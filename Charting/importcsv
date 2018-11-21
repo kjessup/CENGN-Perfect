@@ -3,8 +3,8 @@
 set -e
 
 input=$1
-label=$2
-cpufile=$3
+cpufile=$2
+label=$3
 cpubase=`basename ${cpufile}`
 
 tableName=${label}

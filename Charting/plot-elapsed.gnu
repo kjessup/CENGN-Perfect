@@ -14,8 +14,8 @@ set multiplot layout 2,1
 set ylabel "Requests"
 set title title1
 plot successfile using 1:4:3 lt palette w boxes t "Req Per Sec", \
-	'' using 1:(avgHits) w lines t sprintf("Average %d", avgHits), \
-	'' using 1:14 lw 1 w lines
+	'' using 1:(avgHits) w lines t sprintf("Average %d", avgHits)
+#	, '' using 1:14 lw 1 w lines
 
 min(x,y) = (x<y?x:y)
 set bmargin at screen 0.08
