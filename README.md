@@ -28,7 +28,7 @@ The hardware provided to us was a pair of Cisco UCS C240 M5 rack servers. These 
 	
 One of the machines was split into four, 4 CPU VMs (the clients), and the other was left bare metal (the server). The server was where the server frameworks would run while the VMs would run JMeter to perform the tests. Ubuntu 16.04 was installed on all.
 	
-With the four client, one would be employed as a JMeter master while the other three would be JMeter minions. Zabbix with Postgres was installed on one of these VMs as well, and the Zabbix agent was placed on the server. The purpose of this was to be able to garner additional metrics from the server while the tests are being run. In the end we used Zabbix only to gather the ongoing CPU usage while the tests were being run. Zabbix was configured to collect CPU usage once a second.
+Of the four clients, one would be employed as a JMeter master while the other three would be JMeter minions. Zabbix with Postgres was installed on one of these VMs as well, and the Zabbix agent was placed on the server. The purpose of this was to be able to garner additional metrics from the server while the tests are being run. In the end we used Zabbix only to gather the ongoing CPU usage during the tests. Zabbix was configured to collect CPU usage once a second.
 	
 The server and all clients had their ephemeral port range widened, max open files increased, and tcp_tw_recycle and tcp_tw_reuse enabled.
 
@@ -82,25 +82,30 @@ The resulting log files from JMeter, from which all result data was gathered, co
 
 ### Import
 
-Running an individual test produces two csv files. One contains the log file from JMeter, the other contains the CPU usage data gathered from Zabbix. A shell script would unzip the CPU data (which was ultimately much smaller than the JMeter data) to a temporary location and would streaming-unzip the JMeter data while piping it to a custom (Swift based) process. This process would normalize all the time data from the source such that the first request occurred at zero seconds, aiding greatly in creating charts for the result data. It would also insert the matching CPU data for each span of seconds as an additional csv column and drop some columns which were not relevent to the final reporting process. And finally, it would output the resulting data as csv which was streamed into Postgres.
+Running an individual test produces two csv files. One contains the log file from JMeter, the other contains the CPU usage data gathered from Zabbix. A shell script would unzip the CPU data (which was ultimately much smaller than the JMeter data) to a temporary location and would streaming-unzip the JMeter data while piping it to a custom (Swift based) process. This process would normalize all the timestamp data from the source such that the first request occurred at zero seconds. This aided greatly in creating charts for the result data. It would also insert the matching CPU data for each span of seconds as an additional csv column and drop some columns which were not relevent to the final reporting process. And finally, it would output the resulting data to stdout in chunks as csv which was streamed into Postgres.
 
 Each framework/test combination would have its data stored in its own table. This made working with the data much more efficient. The tests were run many, many times as the process was improved and as Perfect-NIO was developed and iterated on. Old test data was dropped for each new run.
 
 ### Export
 
-Before a chart for any framework/test combination was generated, the data was exported from Postgres as csv. However, this data was first reprocessed. This processing was done in Postgres itself. Timestamp data was truncated to seconds (stripping off milliseconds) and all rows were grouped and ordered by this resulting time data. For each second, the request elapsed time, thread count, and latency were averaged. The elapsed request time's 25th/50th/75th/95th percentiles were calculated, and finaly the average cpu usage per second was calculated.
+Before a chart for any framework/test combination was generated, the data was exported from Postgres as csv. However, this data was first re-processed. This processing was done in Postgres itself as part of the select statement. Timestamp data was truncated to seconds (stripping off milliseconds) and all rows were grouped and ordered by this resulting time data. For each second, the request elapsed time, thread count, and latency were averaged. The elapsed request time's 25/50/75/95-th percentiles were calculated, and finaly the average cpu usage per second was calculated.
 
 The above was only done for successful requests. Any failed requests were separately selected and written to their own file using the same seconds calculation and grouping.
 
+The procedures were structured in this way so that data with the highest fidelity could be kept in Postgres while more relevant and smaller data sets could be fed to gnuplot for chart generation.
+
 ### Charting
 
-Once a framework/test combination's data was exported, it was fed into gnuplot. Gnuplot would then spit out a pdf containing three charts. These charts show:
+Once a framework/test combination's data was imported into and re-exported out of Postgres, it was fed into gnuplot. Gnuplot would then spit out a pdf containing three charts. These charts show:
 
-* Requests per second over time, including load level and overall average requests per sec.
+* Requests per second over time, including load level, and overall average requests per sec.
 * CPU utilization over time, including load level.
-* Request elapsed time by percentile 25/50/75/95 over time, including load level and request errors, if any.
+* Request elapsed time by 25/50/75/95-th percentile over time, including load level, and request errors, if any.
+
+"Load level", above, refers to the number of requests to completed during any given second. CPU utilization is indicated by the shifting colour pallet; low to high, from purple to red. The maximum value is 7200.
 	
 ## Results
+
 
 
 ### Anomalies
