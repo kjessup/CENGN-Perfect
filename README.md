@@ -98,7 +98,7 @@ The procedures were structured in this way so that data with the highest fidelit
 
 Once a framework/test combination's data was imported into and re-exported out of Postgres, it was fed into gnuplot. Gnuplot would then spit out a pdf containing three charts. These charts show:
 
-* Requests per second over time, including load level, and overall average requests per sec.
+* Requests per second over time, including load level, and overall average requests per second.
 * CPU utilization over time, including load level.
 * Request elapsed time by 25/50/75/95-th percentile over time, including load level, and request errors, if any.
 
@@ -106,15 +106,190 @@ Once a framework/test combination's data was imported into and re-exported out o
 	
 ## Results
 
+Initial test results showed that **Perfect-Net** performed pretty well. Amongst the Swift based frameworks, it outperformed Vapor by a small margin, and Kitura by a large margin in many (but not all) of the tests. However, it fell well behind Node and Spring, which outperformed all other frameworks. Go fell slightly below Vapor. The remaining frameworks, Rails, Laravel, Django, all below that.
 
+With regards to **Perfect-NIO**, we initially saw similar performance as Vapor, which makes sense because we were now running on the same networking core. But this also meant that Perfect-NIO was underperforming Perfect-Net. We also noticed that, by default, NIO based apps were not scaling vertically so as to take full advantage of the hardware we happened to be running on. It appeared as though the default accept queue system was not able to keep the worked queue full. This effect was not seen when running on more modest hardware. For example, testing on an 8 core MacBook Pro showed no anomolies and the machine appeared to be as busy as expected when under heavy server load.
+
+After consultation with the SwiftNIO team we were able to devise a method for configuring and launching the NIO based server in a manner which was better able to take advantage of this hardware. An individual listener was launched for each CPU. The accepting sockets were all created with SO\_REUSEPORT, which allowed them to all be bound to the same port. Each accept socket has its own worker queue with a capacity equal to the CPU count. While this scheme ended up using more resources at launch, it made a dramatic difference in performance under load. Compared to Perfect-Net, Perfect-NIO with this change was now 3x faster.
+
+While SO\_REUSEPORT and multiple acceptors worked well on Linux, the behaviour of SO\_REUSEPORT on Linux and macOS differ and this change diminished performance on macOS. While we don't expect users to be deploying production servers on macOS, it is the primary development platform and we still wanted to have things perform there as well as possible. Therefore we made launching multiple acceptors an option in our API. Servers running on comperable hardware may find enabling this scheme to be beneficial.
+
+Seeing that Perfect on NIO could perform very well compared to our existing offering, we then continued to test, analyze, and optimize Perfect-NIO. The results shown below are taken from our final complete run of all framework tests.
+
+/empty
+
+Average requests per second
+
+	45878 Spring
+	35834 Perfect-NIO
+	26877 Kitura
+	22855 Node
+	15738 Perfect-Net
+	15246 Vapor
+	14287 Go
+	10105 Rails
+	7810 Laravel
+	5493 Django
+
+/2048
+
+Average requests per second
+
+	46333 Perfect-NIO
+	46075 Spring
+	22726 Node
+	15579 Perfect-Net
+	14539 Vapor
+	14079 Go
+	10616 Rails
+	8616 Laravel
+	5599 Django
+	2764 Kitura
+
+
+/32768
+
+Average requests per second
+
+	32027 Perfect-NIO
+	30947 Spring
+	22461 Node
+	17411 Perfect-Net
+	13451 Vapor
+	13027 Go
+	9197 Rails
+	8467 Laravel
+	5348 Django
+	185 Kitura
+
+/getArgs2048
+
+Average requests per second
+
+	29751 Perfect-NIO
+	29742 Spring
+	22699 Node
+	16105 Perfect-Net
+	12952 Go
+	11335 Rails
+	8109 Laravel
+	4687 Django
+	2314 Kitura
+	388 Vapor
+
+/postArgs2048
+
+Average requests per second
+
+	39070 Spring
+	26634 Perfect-NIO
+	22449 Node
+	12036 Perfect-Net
+	10094 Rails
+	8424 Laravel
+	7735 Go
+	4240 Django
+	2512 Kitura
+	419 Vapor
+
+/postArgsMulti2048
+
+Average requests per second
+
+	13461 Node
+	10732 Perfect-NIO
+	10621 Perfect-Net
+	10267 Rails
+	9034 Laravel
+	4844 Go
+	4106 Spring
+	2025 Kitura
+	1509 Django
+	311 Vapor
+
+/json
+
+Average requests per second
+
+	46007 Spring
+	23969 Perfect-Net
+	22828 Node
+	20257 Perfect-NIO
+	13980 Kitura
+	10775 Go
+	8946 Rails
+	8745 Vapor
+	8373 Laravel
+	5187 Django
+
+/mix
+
+Average requests per second
+
+	24053 Spring
+	22759 Perfect-NIO
+	21675 Node
+	19148 Perfect-Net
+	10334 Rails
+	9881 Go
+	8637 Laravel
+	4084 Django
+	3206 Kitura
+	754 Vapor
+
+/2048 Heavy
+
+Average requests per second
+
+	40015 Perfect-NIO
+	39070 Spring
+	23445 Node
+	15495 Perfect-Net
 
 ### Anomalies
 
 ### Take Aways
 
+Memory usage did not appear to be an issue with any framework. While the server test machine had beaucoup RAM, I didn't notice any leaks or unbounded growth in memory usage while tests were running.
+
 ### Subsequent Work
 
+Finished Perfect-NIO. Completed WebSockets, compression (gzip, deflate), static file serving, and Mustache support.
+
+Perfect 3->4 compatability layer. Permits Perfect 3 code to run on Perfect-NIO with only changes to Package file and imports.
+
 ### Future Work
+
+HTTP/2 support.
+HTTP multiplexer.
+SUpport for SwiftNIO 2 and Swift 5.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
