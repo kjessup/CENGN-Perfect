@@ -278,12 +278,14 @@ Memory usage did not appear to be an issue with any framework. While the server 
 
 Finished Perfect-NIO. Completed WebSockets, compression (gzip, deflate), static file serving, and Mustache support.
 
-Perfect 3->4 compatability layer. Permits Perfect 3 code to run on Perfect-NIO with only changes to Package.swift file and imports.
+Perfect 3 -> 4 compatability layer. Permits Perfect 3 code to run on Perfect-NIO with only changes to Package.swift file and imports.
 
 ### Future Work
 
 HTTP/2 support.
+
 HTTP multiplexer.
+
 Support for SwiftNIO 2 and Swift 5.
 
 
