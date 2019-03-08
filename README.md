@@ -118,7 +118,7 @@ Seeing that Perfect on NIO could perform very well compared to our existing offe
 
 /empty
 
-Average requests per second
+Empty request/response. Average requests per second:
 
 	45878 Spring
 	35834 Perfect-NIO
@@ -128,12 +128,12 @@ Average requests per second
 	15246 Vapor
 	14287 Go
 	10105 Rails
-	7810 Laravel
-	5493 Django
+	 7810 Laravel
+	 5493 Django
 
 /2048
 
-Average requests per second
+Empty request, 2048 byte response. Average requests per second:
 
 	46333 Perfect-NIO
 	46075 Spring
@@ -142,14 +142,17 @@ Average requests per second
 	14539 Vapor
 	14079 Go
 	10616 Rails
-	8616 Laravel
-	5599 Django
-	2764 Kitura
+	 8616 Laravel
+	 5599 Django
+	 2764 Kitura
 
+Notes:
+
+* Kitura's performance seemed to diminish based on how much data was returned. One can see similar performance in the getArgs2048, postArgs2048, and postArgsMulti2048 tests, and even further diminished performance in 32768. The reasons are unknown but I did verify it wasn't response compression being turned on.
 
 /32768
 
-Average requests per second
+Empty request, 32768 bytes response. Average requests per second:
 
 	32027 Perfect-NIO
 	30947 Spring
@@ -157,14 +160,14 @@ Average requests per second
 	17411 Perfect-Net
 	13451 Vapor
 	13027 Go
-	9197 Rails
-	8467 Laravel
-	5348 Django
-	185 Kitura
+	 9197 Rails
+	 8467 Laravel
+	 5348 Django
+	  185 Kitura
 
 /getArgs2048
 
-Average requests per second
+Average requests per second:
 
 	29751 Perfect-NIO
 	29742 Spring
@@ -172,44 +175,49 @@ Average requests per second
 	16105 Perfect-Net
 	12952 Go
 	11335 Rails
-	8109 Laravel
-	4687 Django
-	2314 Kitura
-	388 Vapor
+	 8109 Laravel
+	 4687 Django
+	 2314 Kitura
+	  388 Vapor
 
 /postArgs2048
 
-Average requests per second
+Average requests per second:
 
 	39070 Spring
 	26634 Perfect-NIO
 	22449 Node
 	12036 Perfect-Net
 	10094 Rails
-	8424 Laravel
-	7735 Go
-	4240 Django
-	2512 Kitura
-	419 Vapor
+	 8424 Laravel
+	 7735 Go
+	 4240 Django
+	 2512 Kitura
+	  419 Vapor
 
 /postArgsMulti2048
 
-Average requests per second
+Average requests per second:
 
 	13461 Node
 	10732 Perfect-NIO
 	10621 Perfect-Net
 	10267 Rails
-	9034 Laravel
-	4844 Go
-	4106 Spring
-	2025 Kitura
-	1509 Django
-	311 Vapor
+	 9034 Laravel
+	 4844 Go
+	 4106 Spring
+	 2025 Kitura
+	 1509 Django
+	  311 Vapor
+
+Notes:
+
+* Both Perfect-Net and Perfect-NIO use the same mime parser.
+* Spring seemed to collapse on this task. It did quite well with url-encoded POST but not with multipart.
 
 /json
 
-Average requests per second
+Average requests per second:
 
 	46007 Spring
 	23969 Perfect-Net
@@ -217,36 +225,50 @@ Average requests per second
 	20257 Perfect-NIO
 	13980 Kitura
 	10775 Go
-	8946 Rails
-	8745 Vapor
-	8373 Laravel
-	5187 Django
+	 8946 Rails
+	 8745 Vapor
+	 8373 Laravel
+	 5187 Django
+
+Notes:
+
+* Some frameworks try and enforce a string object encoding methodology on JSON data, others treat it as a dictionary. I tried to keep with the lowest friction idiom for the framework.
 
 /mix
 
-Average requests per second
+Average requests per second:
 
 	24053 Spring
 	22759 Perfect-NIO
 	21675 Node
 	19148 Perfect-Net
 	10334 Rails
-	9881 Go
-	8637 Laravel
-	4084 Django
-	3206 Kitura
-	754 Vapor
+	 9881 Go
+	 8637 Laravel
+	 4084 Django
+	 3206 Kitura
+	  754 Vapor
+
+Notes:
+
+* Since this mix test cycled through the full test set, if a framework did particularly bad on one of them it ended up having a big impact on these results. You can see this in the Spring and Vapor result charts.
 
 /2048 Heavy
 
-Average requests per second
+Empty request, 2048 bytes response, 20k clients. Average requests per second:
 
 	40015 Perfect-NIO
 	39070 Spring
 	23445 Node
 	15495 Perfect-Net
 
+Notes:
+
+* This test cranked things up a little further from the base /2048 test. Only the top performing frameworks were included (plus Perfect-Net for reference).
+
 ### Anomalies
+
+
 
 ### Take Aways
 
@@ -256,13 +278,13 @@ Memory usage did not appear to be an issue with any framework. While the server 
 
 Finished Perfect-NIO. Completed WebSockets, compression (gzip, deflate), static file serving, and Mustache support.
 
-Perfect 3->4 compatability layer. Permits Perfect 3 code to run on Perfect-NIO with only changes to Package file and imports.
+Perfect 3->4 compatability layer. Permits Perfect 3 code to run on Perfect-NIO with only changes to Package.swift file and imports.
 
 ### Future Work
 
 HTTP/2 support.
 HTTP multiplexer.
-SUpport for SwiftNIO 2 and Swift 5.
+Support for SwiftNIO 2 and Swift 5.
 
 
 
