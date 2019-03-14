@@ -116,6 +116,8 @@ While SO\_REUSEPORT and multiple acceptors worked well on Linux, the behaviour o
 
 Seeing that Perfect on NIO could perform very well compared to our existing offering, we then continued to test, analyze, and optimize Perfect-NIO. The results shown below are taken from our final complete run of all framework tests.
 
+### Endpoints
+
 /empty
 
 Empty request/response. Average requests per second:
@@ -266,13 +268,13 @@ Notes:
 
 * This test cranked things up a little further from the base /2048 test. Only the top performing frameworks were included (plus Perfect-Net for reference).
 
-### Anomalies
-
-
-
 ### Take Aways
 
 Memory usage did not appear to be an issue with any framework. While the server test machine had beaucoup RAM, I didn't notice any leaks or unbounded growth in memory usage while tests were running.
+
+Node performed consistently well. One can see a slight dip when it comes to parsing multipart form data (though it was still the top performer on that test), but otherwise it maintained at approximately 22k requests per second for every other test.
+
+Go seemed to underperform my personal expectations; only utilizing a few of the many available CPUs. It's possible it would benefit from the same multi-acceptor methodology we applied to Perfect-NIO.
 
 ### Subsequent Work
 
