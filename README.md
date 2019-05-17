@@ -288,8 +288,6 @@ HTTP/2 support.
 
 HTTP multiplexer.
 
-Support for SwiftNIO 2 and Swift 5.
-
 
 
 
